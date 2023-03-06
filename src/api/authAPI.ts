@@ -11,7 +11,7 @@ const authAPI = {
         return instance.get<ResponseType<{id: number, email: string, login: string}>>('auth/me')
     },
     login: (loginData: LoginDataType) => {
-        return instance.post<ResponseType<{userId: number}>>('auth/login')
+        return instance.post<ResponseType<{userId: number}>>('auth/login', loginData)
     },
     logout: () => {
         return instance.delete<ResponseType>('auth/login')
