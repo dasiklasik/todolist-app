@@ -1,3 +1,4 @@
+import {Dispatch} from "redux";
 
 const initialState = {
     isAuth: false,

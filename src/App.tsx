@@ -1,16 +1,20 @@
 import React, {useEffect} from 'react';
 import './App.css';
+import {useDispatch} from "react-redux";
 
 function App() {
-  useEffect(() => {
-    
-  })
 
-  return (
-    <div className="App">
+    const dispatch = useDispatch()
 
-    </div>
-  );
+    useEffect(() => {
+
+    }, [])
+
+    return (
+        <div className="App">
+
+        </div>
+    );
 }
 
 export default App;
