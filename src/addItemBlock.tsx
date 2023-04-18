@@ -31,7 +31,7 @@ export const AddItemBlock = (props: AddItemBlockPropsType) => {
 
     return (
         <div>
-            <input onKeyPress={e => onEnterHandler(e)} onChange={(e) => onChangeInputHandler(e)} value={inputValue}/>
+            <input onKeyPress={onEnterHandler} onChange={onChangeInputHandler} value={inputValue}/>
             <button onClick={onClickButtonHandler}>+</button>
         </div>
     )
