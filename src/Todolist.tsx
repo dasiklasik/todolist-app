@@ -47,6 +47,10 @@ export const Todolist = (props: TodolistPropsType) => {
         changeTaskStatus(todolistData.id, taskId, isDone)
     }
 
+    const allBtnClassName = todolistData.filter === 'all' ? 'active-filter' : ''
+    const activeBtnClassName = todolistData.filter === 'active' ? 'active-filter' : ''
+    const completedBtnClassName = todolistData.filter === 'completed' ? 'active-filter' : ''
+
 
 
     return (
@@ -59,9 +63,9 @@ export const Todolist = (props: TodolistPropsType) => {
                 }
             </ul>
             <div>
-                <button onClick={changeFilterAll}>All</button>
-                <button onClick={changeFilterActive}>Active</button>
-                <button onClick={changeFilterCompleted}>Completed</button>
+                <button className={allBtnClassName} onClick={changeFilterAll}>All</button>
+                <button className={activeBtnClassName} onClick={changeFilterActive}>Active</button>
+                <button className={completedBtnClassName} onClick={changeFilterCompleted}>Completed</button>
             </div>
         </div>
     )

@@ -22,3 +22,7 @@
 .error-message {
   color: red;
 }
+
+.active-filter {
+  background: lightblue;
+}
