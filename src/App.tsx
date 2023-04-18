@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {v1} from 'uuid';
 import './App.css';
 import {Todolist} from "./Todolist";
+import {AddItemBlock} from "./addItemBlock";
 
 const todolistId1 = v1()
 const todolistId2 = v1()
@@ -67,20 +68,29 @@ function App() {
         delete tasks[todolistId]
     }
 
+    const addTodolist = (title: string) => {
+        const id = v1()
+        setTodolists([{id, title, filter: 'all'}, ...todolists])
+        setTasks({...tasks, [id]: []})
+    }
+
     return (
         <div className='wrapper'>
-            {todolists.map(tl => {
-                return <Todolist
-                    key={tl.id}
-                    todolistData={tl}
-                    tasksData={tasks[tl.id]}
-                    removeTask={removeTask}
-                    changeFilter={changeFilter}
-                    addTask={addTask}
-                    changeTaskStatus={changeTaskStatus}
-                    removeTodolist={removeTodolist}
-                />
-            })}
+            <AddItemBlock callback={addTodolist}/>
+            <div className='todolists-container'>
+                {todolists.map(tl => {
+                    return <Todolist
+                        key={tl.id}
+                        todolistData={tl}
+                        tasksData={tasks[tl.id]}
+                        removeTask={removeTask}
+                        changeFilter={changeFilter}
+                        addTask={addTask}
+                        changeTaskStatus={changeTaskStatus}
+                        removeTodolist={removeTodolist}
+                    />
+                })}
+            </div>
         </div>
     );
 }
