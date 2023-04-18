@@ -1,6 +1,7 @@
 import React, {ChangeEvent, useState} from "react";
 import {FilterValuesType, taskType, todolistType} from "./App";
 import {Task} from "./Task";
+import {AddItemBlock} from "./addItemBlock";
 
 type TodolistPropsType = {
     todolistData: todolistType
@@ -12,7 +13,6 @@ type TodolistPropsType = {
 
 export const Todolist = (props: TodolistPropsType) => {
 
-    const [inputValue, setInputValue] = useState('')
 
     const {
         todolistData,
@@ -34,24 +34,16 @@ export const Todolist = (props: TodolistPropsType) => {
     const changeFilterActive = () => changeFilter(todolistData.id, 'active')
     const changeFilterCompleted = () => changeFilter(todolistData.id, 'completed')
 
-    const onClickButtonHandler = () => {
-        if(inputValue.trim() !== '') {
-            addTask(todolistData.id, inputValue.trim())
-            setInputValue('')
-        }
+    const addTaskItem = (title: string) => {
+        addTask(todolistData.id, title)
     }
 
-    const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setInputValue(e.target.value)
-    }
+
 
     return (
         <div className='todolist'>
             <h3>{todolistData.title}</h3>
-            <div>
-                <input onChange={(e) => onChangeInputHandler(e)} value={inputValue}/>
-                <button onClick={onClickButtonHandler}>+</button>
-            </div>
+            <AddItemBlock callback={addTaskItem}/>
             <ul>
                 {
                     taskForTodolist.map(t => <Task todolistId={todolistData.id} tasksData={t} removeTask={removeTask}/>)
