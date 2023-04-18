@@ -53,7 +53,6 @@ function App() {
     }
 
     const addTask = (todolistId: string, title: string) => {
-        debugger
         const task = {id: v1(), title, isDone: false}
         setTasks({...tasks, [todolistId]: [task ,...tasks[todolistId]]})
 

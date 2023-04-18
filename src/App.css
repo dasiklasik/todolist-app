@@ -14,3 +14,11 @@
 .todolist li {
   list-style-type: none;
 }
+
+.error input {
+  border-color: red;
+}
+
+.error-message {
+  color: red;
+}

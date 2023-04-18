@@ -14,7 +14,6 @@ type TodolistPropsType = {
 
 export const Todolist = (props: TodolistPropsType) => {
 
-
     const {
         todolistData,
         tasksData,
