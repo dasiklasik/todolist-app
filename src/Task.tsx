@@ -22,8 +22,10 @@ export const Task = (props: TaskPropsType) => {
         changeTaskStatus(tasksData.id, e.target.checked)
     }
 
+    const taskClassName = tasksData.isDone ? 'is-done' : ''
+
     return (
-        <li key={tasksData.id}>
+        <li key={tasksData.id} className={taskClassName}>
             <button onClick={onClickHandler}>x</button>
             <input type='checkbox' onChange={onChangeHandler} checked={tasksData.isDone}/>
             {tasksData.title}
