@@ -11,6 +11,12 @@
   gap: 30px;
 }
 
+.flex-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .todolist li {
   list-style-type: none;
 }

@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from "react";
+import React from "react";
 import {FilterValuesType, taskType, todolistType} from "./App";
 import {Task} from "./Task";
 import {AddItemBlock} from "./addItemBlock";
@@ -10,6 +10,7 @@ type TodolistPropsType = {
     changeFilter: (todolistId: string, filter: FilterValuesType) => void
     addTask: (todolistId: string, title: string) => void
     changeTaskStatus: (todolistId: string, taskId: string, isDone: boolean) => void
+    removeTodolist: (todolistId: string) => void
  }
 
 export const Todolist = (props: TodolistPropsType) => {
@@ -21,6 +22,7 @@ export const Todolist = (props: TodolistPropsType) => {
         changeFilter,
         addTask,
         changeTaskStatus,
+        removeTodolist,
     } = props
 
     let taskForTodolist = tasksData
@@ -51,11 +53,16 @@ export const Todolist = (props: TodolistPropsType) => {
     const activeBtnClassName = todolistData.filter === 'active' ? 'active-filter' : ''
     const completedBtnClassName = todolistData.filter === 'completed' ? 'active-filter' : ''
 
-
+    const removeTodolistCallback = () => {
+        removeTodolist(todolistData.id)
+    }
 
     return (
         <div className='todolist'>
-            <h3>{todolistData.title}</h3>
+            <div className='flex-wrapper'>
+                <h3>{todolistData.title}</h3>
+                <button onClick={removeTodolistCallback}>x</button>
+            </div>
             <AddItemBlock callback={addTaskItem}/>
             <ul>
                 {
