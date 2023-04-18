@@ -5,6 +5,7 @@ import {Task} from "./Task";
 type TodolistPropsType = {
     todolistData: todolistType
     tasksData: Array<taskType>
+    removeTask: (todolistId: string, taskId: string) => void
 }
 
 export const Todolist = (props: TodolistPropsType) => {
@@ -12,6 +13,7 @@ export const Todolist = (props: TodolistPropsType) => {
     const {
         todolistData,
         tasksData,
+        removeTask,
     } = props
 
     return (
@@ -23,7 +25,7 @@ export const Todolist = (props: TodolistPropsType) => {
             </div>
             <ul>
                 {
-                    tasksData.map(t => <Task tasksData={t}/>)
+                    tasksData.map(t => <Task todolistId={todolistData.id} tasksData={t} removeTask={removeTask}/>)
                 }
             </ul>
         </div>

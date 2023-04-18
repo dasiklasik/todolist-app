@@ -42,11 +42,19 @@ function App() {
 
     const [tasks, setTasks] = useState(tasksInitial)
 
+    const removeTask = (todolistId: string, taskId: string) => {
+        setTasks({...tasks, [todolistId]: tasks[todolistId].filter(task => task.id !== taskId)})
+    }
+
 
     return (
         <div className='wrapper'>
             {todolists.map(tl => {
-                return <Todolist todolistData={tl} tasksData={tasks[tl.id]}/>
+                return <Todolist
+                    todolistData={tl}
+                    tasksData={tasks[tl.id]}
+                    removeTask={removeTask}
+                />
             })}
         </div>
     );
