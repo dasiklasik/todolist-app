@@ -9,6 +9,7 @@ type TodolistPropsType = {
     removeTask: (todolistId: string, taskId: string) => void
     changeFilter: (todolistId: string, filter: FilterValuesType) => void
     addTask: (todolistId: string, title: string) => void
+    changeTaskStatus: (todolistId: string, taskId: string, isDone: boolean) => void
  }
 
 export const Todolist = (props: TodolistPropsType) => {
@@ -20,6 +21,7 @@ export const Todolist = (props: TodolistPropsType) => {
         removeTask,
         changeFilter,
         addTask,
+        changeTaskStatus,
     } = props
 
     let taskForTodolist = tasksData
@@ -38,6 +40,14 @@ export const Todolist = (props: TodolistPropsType) => {
         addTask(todolistData.id, title)
     }
 
+    const removeTaskItem = (taskId: string) => {
+        removeTask(todolistData.id, taskId)
+    }
+
+    const changeTaskStatusWrapper = (taskId: string, isDone: boolean) => {
+        changeTaskStatus(todolistData.id, taskId, isDone)
+    }
+
 
 
     return (
@@ -46,7 +56,7 @@ export const Todolist = (props: TodolistPropsType) => {
             <AddItemBlock callback={addTaskItem}/>
             <ul>
                 {
-                    taskForTodolist.map(t => <Task todolistId={todolistData.id} tasksData={t} removeTask={removeTask}/>)
+                    taskForTodolist.map(t => <Task tasksData={t} changeTaskStatus={changeTaskStatusWrapper} removeTask={removeTaskItem}/>)
                 }
             </ul>
             <div>
