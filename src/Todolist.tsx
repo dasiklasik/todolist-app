@@ -2,6 +2,7 @@ import React from "react";
 import {FilterValuesType, taskType, todolistType} from "./App";
 import {Task} from "./Task";
 import {AddItemBlock} from "./addItemBlock";
+import {EditableSpan} from "./EditableSpan";
 
 type TodolistPropsType = {
     todolistData: todolistType
@@ -11,6 +12,8 @@ type TodolistPropsType = {
     addTask: (todolistId: string, title: string) => void
     changeTaskStatus: (todolistId: string, taskId: string, isDone: boolean) => void
     removeTodolist: (todolistId: string) => void
+    changeTaskTitle: (todolistId: string, taskId: string, title: string) => void
+    changeTodolistTitle: (todolistId: string, title: string) => void
  }
 
 export const Todolist = (props: TodolistPropsType) => {
@@ -23,6 +26,8 @@ export const Todolist = (props: TodolistPropsType) => {
         addTask,
         changeTaskStatus,
         removeTodolist,
+        changeTaskTitle,
+        changeTodolistTitle,
     } = props
 
     let taskForTodolist = tasksData
@@ -57,16 +62,29 @@ export const Todolist = (props: TodolistPropsType) => {
         removeTodolist(todolistData.id)
     }
 
+    const changeTaskTitleTodoWrapper = (taskId: string, title: string) => {
+        changeTaskTitle(todolistData.id, taskId, title)
+    }
+
+    const changeTodolistTitleWrapper = (title: string) => {
+        changeTodolistTitle(todolistData.id, title)
+    }
+
     return (
         <div className='todolist'>
-            <div className='flex-wrapper'>
-                <h3>{todolistData.title}</h3>
+            <div className='flex-wrapper header'>
+                <EditableSpan title={todolistData.title} callback={changeTodolistTitleWrapper}/>
                 <button onClick={removeTodolistCallback}>x</button>
             </div>
             <AddItemBlock callback={addTaskItem}/>
             <ul>
                 {
-                    taskForTodolist.map(t => <Task tasksData={t} changeTaskStatus={changeTaskStatusWrapper} removeTask={removeTaskItem}/>)
+                    taskForTodolist.map(t => <Task
+                        tasksData={t}
+                        changeTaskStatus={changeTaskStatusWrapper}
+                        removeTask={removeTaskItem}
+                        changeTaskTitle={changeTaskTitleTodoWrapper}
+                    />)
                 }
             </ul>
             <div>

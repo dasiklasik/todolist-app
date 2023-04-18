@@ -21,6 +21,12 @@
   gap: 10px;
 }
 
+.header span {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 20px 0 10px;
+}
+
 .todolist li {
   list-style-type: none;
 }
