@@ -1,14 +1,17 @@
 import React, {useState} from 'react';
-import { v1 } from 'uuid';
+import {v1} from 'uuid';
 import './App.css';
 import {Todolist} from "./Todolist";
 
 const todolistId1 = v1()
 const todolistId2 = v1()
 
+export type FilterValuesType = 'all' | 'active' | 'completed'
+
 export type todolistType = {
     id: string
     title: string
+    filter: FilterValuesType
 }
 
 export type taskType = {
@@ -18,8 +21,8 @@ export type taskType = {
 }
 
 const todolistsInitial: Array<todolistType> = [
-    {id: todolistId1, title: 'What to learn'},
-    {id: todolistId2, title: 'What to buy'}
+    {id: todolistId1, title: 'What to learn', filter: 'all'},
+    {id: todolistId2, title: 'What to buy', filter: 'all'}
 ]
 
 const tasksInitial = {
@@ -39,11 +42,14 @@ const tasksInitial = {
 function App() {
 
     const [todolists, setTodolists] = useState(todolistsInitial)
-
     const [tasks, setTasks] = useState(tasksInitial)
 
     const removeTask = (todolistId: string, taskId: string) => {
         setTasks({...tasks, [todolistId]: tasks[todolistId].filter(task => task.id !== taskId)})
+    }
+
+    const changeFilter = (todolistId: string, filter: FilterValuesType) => {
+        setTodolists(todolists.map(tl => tl.id === todolistId ? {...tl, filter} : tl))
     }
 
 
@@ -51,9 +57,11 @@ function App() {
         <div className='wrapper'>
             {todolists.map(tl => {
                 return <Todolist
+                    key={tl.id}
                     todolistData={tl}
                     tasksData={tasks[tl.id]}
                     removeTask={removeTask}
+                    changeFilter={changeFilter}
                 />
             })}
         </div>
