@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { v1 } from 'uuid';
 import './App.css';
 import {Todolist} from "./Todolist";
@@ -17,12 +17,12 @@ export type taskType = {
     isDone: boolean
 }
 
-const todolists: Array<todolistType> = [
+const todolistsInitial: Array<todolistType> = [
     {id: todolistId1, title: 'What to learn'},
     {id: todolistId2, title: 'What to buy'}
 ]
 
-const tasks = {
+const tasksInitial = {
     [todolistId1]: [
         {id: v1(), title: 'HTML', isDone: false},
         {id: v1(), title: 'CSS', isDone: false},
@@ -38,8 +38,13 @@ const tasks = {
 
 function App() {
 
+    const [todolists, setTodolists] = useState(todolistsInitial)
+
+    const [tasks, setTasks] = useState(tasksInitial)
+
+
     return (
-        <div>
+        <div className='wrapper'>
             {todolists.map(tl => {
                 return <Todolist todolistData={tl} tasksData={tasks[tl.id]}/>
             })}

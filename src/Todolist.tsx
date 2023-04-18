@@ -1,5 +1,6 @@
 import React from "react";
 import {taskType, todolistType} from "./App";
+import {Task} from "./Task";
 
 type TodolistPropsType = {
     todolistData: todolistType
@@ -14,7 +15,7 @@ export const Todolist = (props: TodolistPropsType) => {
     } = props
 
     return (
-        <div>
+        <div className='todolist'>
             <h3>{todolistData.title}</h3>
             <div>
                 <input/>
@@ -29,18 +30,3 @@ export const Todolist = (props: TodolistPropsType) => {
     )
 }
 
-type TaskPropsType = {
-    tasksData: taskType
-}
-
-const Task = (props: TaskPropsType) => {
-
-    const {tasksData} = props
-
-    return (
-        <li key={tasksData.id}>
-            <input type='checkbox' checked={tasksData.isDone}/>
-            {tasksData.title}
-        </li>
-    )
-}
