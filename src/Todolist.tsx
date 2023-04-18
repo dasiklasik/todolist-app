@@ -1,4 +1,4 @@
-import React from "react";
+import React, {ChangeEvent, useState} from "react";
 import {FilterValuesType, taskType, todolistType} from "./App";
 import {Task} from "./Task";
 
@@ -7,15 +7,19 @@ type TodolistPropsType = {
     tasksData: Array<taskType>
     removeTask: (todolistId: string, taskId: string) => void
     changeFilter: (todolistId: string, filter: FilterValuesType) => void
+    addTask: (todolistId: string, title: string) => void
  }
 
 export const Todolist = (props: TodolistPropsType) => {
+
+    const [inputValue, setInputValue] = useState('')
 
     const {
         todolistData,
         tasksData,
         removeTask,
         changeFilter,
+        addTask,
     } = props
 
     let taskForTodolist = tasksData
@@ -30,12 +34,23 @@ export const Todolist = (props: TodolistPropsType) => {
     const changeFilterActive = () => changeFilter(todolistData.id, 'active')
     const changeFilterCompleted = () => changeFilter(todolistData.id, 'completed')
 
+    const onClickButtonHandler = () => {
+        if(inputValue.trim() !== '') {
+            addTask(todolistData.id, inputValue.trim())
+            setInputValue('')
+        }
+    }
+
+    const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setInputValue(e.target.value)
+    }
+
     return (
         <div className='todolist'>
             <h3>{todolistData.title}</h3>
             <div>
-                <input/>
-                <button>+</button>
+                <input onChange={(e) => onChangeInputHandler(e)} value={inputValue}/>
+                <button onClick={onClickButtonHandler}>+</button>
             </div>
             <ul>
                 {
