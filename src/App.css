@@ -21,10 +21,13 @@
   gap: 10px;
 }
 
+.header {
+  margin: 20px 0 10px;
+}
+
 .header span {
   font-size: 20px;
   font-weight: bold;
-  margin: 20px 0 10px;
 }
 
 .todolist li {
@@ -45,4 +48,9 @@
 
 .is-done {
   opacity: 0.5;
+}
+
+.add-item-block {
+  display: flex;
+  align-items: center;
 }

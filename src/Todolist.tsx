@@ -1,8 +1,10 @@
 import React from "react";
 import {FilterValuesType, taskType, todolistType} from "./App";
 import {Task} from "./Task";
-import {AddItemBlock} from "./addItemBlock";
+import {AddItemBlock} from "./AddItemBlock";
 import {EditableSpan} from "./EditableSpan";
+import {Button, IconButton} from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 type TodolistPropsType = {
     todolistData: todolistType
@@ -54,10 +56,6 @@ export const Todolist = (props: TodolistPropsType) => {
         changeTaskStatus(todolistData.id, taskId, isDone)
     }
 
-    const allBtnClassName = todolistData.filter === 'all' ? 'active-filter' : ''
-    const activeBtnClassName = todolistData.filter === 'active' ? 'active-filter' : ''
-    const completedBtnClassName = todolistData.filter === 'completed' ? 'active-filter' : ''
-
     const removeTodolistCallback = () => {
         removeTodolist(todolistData.id)
     }
@@ -74,7 +72,9 @@ export const Todolist = (props: TodolistPropsType) => {
         <div className='todolist'>
             <div className='flex-wrapper header'>
                 <EditableSpan title={todolistData.title} callback={changeTodolistTitleWrapper}/>
-                <button onClick={removeTodolistCallback}>x</button>
+                <IconButton color='primary' size='small' aria-label="delete" onClick={removeTodolistCallback}>
+                    <DeleteIcon />
+                </IconButton>
             </div>
             <AddItemBlock callback={addTaskItem}/>
             <ul>
@@ -88,9 +88,9 @@ export const Todolist = (props: TodolistPropsType) => {
                 }
             </ul>
             <div>
-                <button className={allBtnClassName} onClick={changeFilterAll}>All</button>
-                <button className={activeBtnClassName} onClick={changeFilterActive}>Active</button>
-                <button className={completedBtnClassName} onClick={changeFilterCompleted}>Completed</button>
+                <Button variant={todolistData.filter === 'all' ? 'outlined' : 'text'} onClick={changeFilterAll}>All</Button>
+                <Button variant={todolistData.filter === 'active' ? 'outlined' : 'text'} onClick={changeFilterActive}>Active</Button>
+                <Button variant={todolistData.filter === 'completed' ? 'outlined' : 'text'} onClick={changeFilterCompleted}>Completed</Button>
             </div>
         </div>
     )

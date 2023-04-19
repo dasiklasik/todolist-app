@@ -1,4 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import {Button, IconButton, TextField} from "@mui/material";
+import {AddBox} from "@mui/icons-material";
 
 type AddItemBlockPropsType = {
     callback: (title: string) => void
@@ -11,7 +13,6 @@ export const AddItemBlock = (props: AddItemBlockPropsType) => {
     const [inputValue, setInputValue] = useState('')
     const [error, setError] = useState<string | null>(null)
 
-    const blockClassName = error ? 'error' : ''
 
 
     const onClickButtonHandler = () => {
@@ -40,10 +41,18 @@ export const AddItemBlock = (props: AddItemBlockPropsType) => {
     }
 
     return (
-        <div className={blockClassName}>
-            <input onKeyPress={onEnterHandler} onChange={onChangeInputHandler} value={inputValue}/>
-            <button onClick={onClickButtonHandler}>+</button>
-            {error && <div className='error-message'>{error}</div>}
+        <div className='add-item-block'>
+            <TextField
+                error={!!error}
+                helperText={error}
+                variant='standard'
+                onKeyPress={onEnterHandler}
+                onChange={onChangeInputHandler}
+                value={inputValue}
+            />
+            <IconButton color='primary' onClick={onClickButtonHandler}>
+                <AddBox/>
+            </IconButton>
         </div>
     )
 }
