@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {v1} from 'uuid';
 import './App.css';
 import {Todolist} from "./Todolist";
@@ -14,10 +14,10 @@ function App() {
     const todolists = useSelector<StoreType, Array<TodolistType>>(state => state.todolist)
     const dispatch = useDispatch()
 
-    const addTodolistWrapper = (title: string) => {
+    const addTodolistWrapper = useCallback((title: string) => {
         const id = v1()
         dispatch(addTodolist(id, title))
-    }
+    }, [dispatch, addTodolist])
 
     return (
         <div className='wrapper'>

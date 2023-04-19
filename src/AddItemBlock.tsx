@@ -6,21 +6,19 @@ type AddItemBlockPropsType = {
     callback: (title: string) => void
 }
 
-export const AddItemBlock = (props: AddItemBlockPropsType) => {
+export const AddItemBlock =  React.memo((props: AddItemBlockPropsType) => {
 
     const {callback} = props
 
     const [inputValue, setInputValue] = useState('')
     const [error, setError] = useState<string | null>(null)
 
-
-
     const onClickButtonHandler = () => {
-        if(inputValue.trim() !== '') {
+        if(inputValue.trim() === '') {
+            setError('Title is required!')
+        } else {
             callback(inputValue.trim())
             setInputValue('')
-        } else {
-            setError('Title is required!')
         }
     }
 
@@ -32,12 +30,15 @@ export const AddItemBlock = (props: AddItemBlockPropsType) => {
     }
 
     const onEnterHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if(e.key === 'Enter' && inputValue.trim() !== '') {
-            callback(inputValue.trim())
-            setInputValue('')
-        } else {
-            setError('Title is required!')
+        if(e.key === 'Enter') {
+            if(inputValue.trim() === '') {
+                setError('Title is required!')
+            } else if(inputValue.trim() === '') {
+                callback(inputValue.trim())
+                setInputValue('')
+            }
         }
+
     }
 
     return (
@@ -55,4 +56,5 @@ export const AddItemBlock = (props: AddItemBlockPropsType) => {
             </IconButton>
         </div>
     )
-}
+})
+

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useCallback} from "react";
 import {Task} from "./Task";
 import {AddItemBlock} from "./AddItemBlock";
 import {EditableSpan} from "./EditableSpan";
@@ -35,9 +35,9 @@ export const Todolist = (props: TodolistPropsType) => {
     const changeFilterActive = () => dispatch(changeTodolistFilter(todolistData.id, 'active'))
     const changeFilterCompleted = () => dispatch(changeTodolistFilter(todolistData.id, 'completed'))
 
-    const addTaskWrapper = (title: string) => {
+    const addTaskWrapper = useCallback((title: string) => {
         dispatch(addTask(todolistData.id, title))
-    }
+    }, [dispatch, addTask, todolistData.id])
 
     const removeTaskWrapper = (taskId: string) => {
         dispatch(removeTask(todolistData.id, taskId))
