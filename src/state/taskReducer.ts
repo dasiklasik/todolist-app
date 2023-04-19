@@ -14,7 +14,7 @@ const initialState: StateType = {
     ],
 }
 
-export const TaskReducer = (state = initialState, action: ActionType): StateType => {
+export const taskReducer = (state = initialState, action: ActionType): StateType => {
     switch (action.type) {
         case "REMOVE-TASK":
             return {...state, [action.todolistId]: state[action.todolistId].filter(t => t.id !== action.taskId)}
