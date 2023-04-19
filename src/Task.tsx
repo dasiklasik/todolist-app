@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from "react";
+import React, {ChangeEvent, useCallback} from "react";
 import {EditableSpan} from "./EditableSpan";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {Checkbox, IconButton} from "@mui/material";
@@ -10,7 +10,7 @@ type TaskPropsType = {
     changeTaskStatus: (taskId: string, isDone: boolean) => void
     changeTaskTitle: (taskId: string, title: string) => void
 }
-export const Task = (props: TaskPropsType) => {
+export const Task = React.memo((props: TaskPropsType) => {
 
     const {
         tasksData,
@@ -27,9 +27,9 @@ export const Task = (props: TaskPropsType) => {
         changeTaskStatus(tasksData.id, e.target.checked)
     }
 
-    const changeTaskTitleTaskWrapper = (title: string) => {
+    const changeTaskTitleTaskWrapper = useCallback((title: string) => {
         changeTaskTitle(tasksData.id, title)
-    }
+    }, [changeTaskTitle, tasksData.id])
 
     const taskClassName = tasksData.isDone ? 'is-done' : ''
 
@@ -42,4 +42,4 @@ export const Task = (props: TaskPropsType) => {
             </IconButton>
         </li>
     )
-}
+})

@@ -13,7 +13,7 @@ type TodolistPropsType = {
     todolistData: TodolistType
  }
 
-export const Todolist = (props: TodolistPropsType) => {
+export const Todolist = React.memo((props: TodolistPropsType) => {
 
     const {
         todolistData,
@@ -31,33 +31,33 @@ export const Todolist = (props: TodolistPropsType) => {
         taskForTodolist = taskForTodolist.filter(task => task.isDone)
     }
 
-    const changeFilterAll = () => dispatch(changeTodolistFilter(todolistData.id, 'all'))
-    const changeFilterActive = () => dispatch(changeTodolistFilter(todolistData.id, 'active'))
-    const changeFilterCompleted = () => dispatch(changeTodolistFilter(todolistData.id, 'completed'))
+    const changeFilterAll = useCallback(() => dispatch(changeTodolistFilter(todolistData.id, 'all')), [todolistData.id, dispatch, changeTodolistFilter])
+    const changeFilterActive = useCallback(() => dispatch(changeTodolistFilter(todolistData.id, 'active')), [todolistData.id, dispatch, changeTodolistFilter])
+    const changeFilterCompleted = useCallback(() => dispatch(changeTodolistFilter(todolistData.id, 'completed')), [todolistData.id, dispatch, changeTodolistFilter])
 
     const addTaskWrapper = useCallback((title: string) => {
         dispatch(addTask(todolistData.id, title))
     }, [dispatch, addTask, todolistData.id])
 
-    const removeTaskWrapper = (taskId: string) => {
+    const removeTaskWrapper = useCallback((taskId: string) => {
         dispatch(removeTask(todolistData.id, taskId))
-    }
+    }, [dispatch, removeTask, todolistData.id])
 
-    const changeTaskStatusWrapper = (taskId: string, isDone: boolean) => {
+    const changeTaskStatusWrapper = useCallback((taskId: string, isDone: boolean) => {
         dispatch(changeTaskStatus(todolistData.id, taskId, isDone))
-    }
+    }, [dispatch, changeTaskStatus, todolistData.id])
 
-    const removeTodolistWrapper = () => {
+    const removeTodolistWrapper = useCallback(() => {
         dispatch(removeTodolist(todolistData.id))
-    }
+    }, [dispatch, removeTodolist, todolistData.id])
 
-    const changeTaskTitleTodoWrapper = (taskId: string, title: string) => {
+    const changeTaskTitleTodoWrapper = useCallback((taskId: string, title: string) => {
        dispatch(changeTaskTitle(todolistData.id, taskId, title))
-    }
+    }, [dispatch, changeTaskTitle, todolistData.id])
 
-    const changeTodolistTitleWrapper = (title: string) => {
+    const changeTodolistTitleWrapper = useCallback((title: string) => {
         dispatch(changeTodolistTitle(todolistData.id, title))
-    }
+    }, [dispatch, changeTodolistTitle, todolistData.id])
 
     return (
         <div className='todolist'>
@@ -85,5 +85,5 @@ export const Todolist = (props: TodolistPropsType) => {
             </div>
         </div>
     )
-}
+})
 
