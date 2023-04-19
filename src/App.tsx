@@ -4,17 +4,12 @@ import './App.css';
 import {Todolist} from "./Todolist";
 import {AddItemBlock} from "./AddItemBlock";
 import {Container, Grid, Paper} from "@mui/material";
+import {TodolistType} from "./state/todolistReducer";
 
 const todolistId1 = v1()
 const todolistId2 = v1()
 
 export type FilterValuesType = 'all' | 'active' | 'completed'
-
-export type todolistType = {
-    id: string
-    title: string
-    filter: FilterValuesType
-}
 
 export type taskType = {
     id: string
@@ -22,7 +17,7 @@ export type taskType = {
     isDone: boolean
 }
 
-const todolistsInitial: Array<todolistType> = [
+const todolistsInitial: Array<TodolistType> = [
     {id: todolistId1, title: 'What to learn', filter: 'all'},
     {id: todolistId2, title: 'What to buy', filter: 'all'}
 ]
