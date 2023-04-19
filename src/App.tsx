@@ -11,12 +11,6 @@ const todolistId2 = v1()
 
 export type FilterValuesType = 'all' | 'active' | 'completed'
 
-export type taskType = {
-    id: string
-    title: string
-    isDone: boolean
-}
-
 const todolistsInitial: Array<TodolistType> = [
     {id: todolistId1, title: 'What to learn', filter: 'all'},
     {id: todolistId2, title: 'What to buy', filter: 'all'}

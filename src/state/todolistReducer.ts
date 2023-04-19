@@ -24,14 +24,14 @@ const changeTodolistTitle = (todolistId: string, title: string) => ({type: 'CHAN
 const changeTodolistFilter = (todolistId: string, filter: FilterValuesType) => ({type: 'CHANGE-TODOLIST-FILTER', todolistId, filter} as const)
 
 //types
-type ActionType = removeTodolistType | addTodolistType | changeTodolistTitleType | changeTodolistFilterType
+type ActionType = RemoveTodolistType | AddTodolistType | ChangeTodolistTitleType | ChangeTodolistFilterType
 export type TodolistType = {
     id: string
     title: string
     filter: FilterValuesType
 }
 
-type removeTodolistType = ReturnType<typeof removeTodolist>
-type addTodolistType = ReturnType<typeof addTodolist>
-type changeTodolistTitleType = ReturnType<typeof changeTodolistTitle>
-type changeTodolistFilterType = ReturnType<typeof changeTodolistFilter>
+export type RemoveTodolistType = ReturnType<typeof removeTodolist>
+type AddTodolistType = ReturnType<typeof addTodolist>
+type ChangeTodolistTitleType = ReturnType<typeof changeTodolistTitle>
+type ChangeTodolistFilterType = ReturnType<typeof changeTodolistFilter>

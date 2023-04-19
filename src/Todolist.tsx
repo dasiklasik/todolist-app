@@ -1,15 +1,16 @@
 import React from "react";
-import {FilterValuesType, taskType} from "./App";
+import {FilterValuesType} from "./App";
 import {Task} from "./Task";
 import {AddItemBlock} from "./AddItemBlock";
 import {EditableSpan} from "./EditableSpan";
 import {Button, IconButton} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {TodolistType} from "./state/todolistReducer";
+import {TaskType} from "./state/taskReducer";
 
 type TodolistPropsType = {
     todolistData: TodolistType
-    tasksData: Array<taskType>
+    tasksData: Array<TaskType>
     removeTask: (todolistId: string, taskId: string) => void
     changeFilter: (todolistId: string, filter: FilterValuesType) => void
     addTask: (todolistId: string, title: string) => void
