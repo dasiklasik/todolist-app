@@ -11,6 +11,8 @@ export const todolistReducer = (state = initialState, action: ActionType): Array
             return [...state, {id: action.todolistId, title: action.title, filter: 'all'}]
         case "CHANGE-TODOLIST-TITLE":
             return state.map(tl => tl.id === action.todolistId ? {...tl, title: action.title} : tl)
+        case "CHANGE-TODOLIST-FILTER":
+            return state.map(tl => tl.id === action.todolistId ? {...tl, filter: action.filter} : tl)
         default: return state
     }
 }
@@ -19,9 +21,10 @@ export const todolistReducer = (state = initialState, action: ActionType): Array
 const removeTodolist = (todolistId: string) => ({type: 'REMOVE-TODOLIST', todolistId} as const)
 const addTodolist = (todolistId: string, title: string) => ({type: 'ADD-TODOLIST', todolistId, title} as const)
 const changeTodolistTitle = (todolistId: string, title: string) => ({type: 'CHANGE-TODOLIST-TITLE', todolistId, title} as const)
+const changeTodolistFilter = (todolistId: string, filter: FilterValuesType) => ({type: 'CHANGE-TODOLIST-FILTER', todolistId, filter} as const)
 
 //types
-type ActionType = removeTodolistType | addTodolistType | changeTodolistTitleType
+type ActionType = removeTodolistType | addTodolistType | changeTodolistTitleType | changeTodolistFilterType
 export type TodolistType = {
     id: string
     title: string
@@ -31,3 +34,4 @@ export type TodolistType = {
 type removeTodolistType = ReturnType<typeof removeTodolist>
 type addTodolistType = ReturnType<typeof addTodolist>
 type changeTodolistTitleType = ReturnType<typeof changeTodolistTitle>
+type changeTodolistFilterType = ReturnType<typeof changeTodolistFilter>
