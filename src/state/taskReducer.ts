@@ -1,7 +1,18 @@
 import { v1 } from "uuid";
-import {AddTodolistType, RemoveTodolistType} from "./todolistReducer";
+import {AddTodolistType, RemoveTodolistType, todolistId1, todolistId2} from "./todolistReducer";
 
-const initialState: StateType = {}
+const initialState: StateType = {
+    [todolistId1]: [
+        {id: v1(), title: 'HTML', isDone: false},
+        {id: v1(), title: 'CSS', isDone: false},
+        {id: v1(), title: 'React', isDone: false},
+    ],
+    [todolistId2]: [
+        {id: v1(), title: 'Milk', isDone: false},
+        {id: v1(), title: 'Cheese', isDone: false},
+        {id: v1(), title: 'Corn', isDone: false},
+    ],
+}
 
 export const TaskReducer = (state = initialState, action: ActionType): StateType => {
     switch (action.type) {
@@ -23,10 +34,10 @@ export const TaskReducer = (state = initialState, action: ActionType): StateType
 }
 
 //actions
-const removeTask = (todolistId: string, taskId: string) => ({type: 'REMOVE-TASK', todolistId, taskId} as const)
-const addTask = (todolistId: string, title: string) => ({type: 'ADD-TASK', todolistId, title} as const)
-const changeTaskStatus = (todolistId: string, taskId: string, isDone: boolean) => ({type: 'CHANGE-TASK-STATUS', todolistId, taskId, isDone} as const)
-const changeTaskTitle = (todolistId: string, taskId: string, title: string) => ({type: 'CHANGE-TASK-TITLE', todolistId, taskId, title} as const)
+export const removeTask = (todolistId: string, taskId: string) => ({type: 'REMOVE-TASK', todolistId, taskId} as const)
+export const addTask = (todolistId: string, title: string) => ({type: 'ADD-TASK', todolistId, title} as const)
+export const changeTaskStatus = (todolistId: string, taskId: string, isDone: boolean) => ({type: 'CHANGE-TASK-STATUS', todolistId, taskId, isDone} as const)
+export const changeTaskTitle = (todolistId: string, taskId: string, title: string) => ({type: 'CHANGE-TASK-TITLE', todolistId, taskId, title} as const)
 
 //types
 type ActionType = RemoveTaskType | RemoveTodolistType | AddTaskType | ChangeTaskStatusType | ChangeTaskTitleType | AddTodolistType

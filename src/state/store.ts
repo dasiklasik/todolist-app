@@ -1,11 +1,13 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import thunk from "redux-thunk";
-import {authReducer} from "./authReducer";
+import {todolistReducer} from "./todolistReducer";
+import {TaskReducer} from "./taskReducer";
 
 const reducer = combineReducers({
-    auth: authReducer
+    todolist: todolistReducer,
+    tasks: TaskReducer,
 })
 
 export const store = createStore(reducer, applyMiddleware(thunk))
 
-const storeType = typeof store
+export type StoreType = ReturnType<typeof reducer>

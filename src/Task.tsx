@@ -1,12 +1,11 @@
-import {taskType} from "./App";
 import React, {ChangeEvent} from "react";
 import {EditableSpan} from "./EditableSpan";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {Checkbox, IconButton} from "@mui/material";
-import {CheckBox} from "@mui/icons-material";
+import {TaskType} from "./state/taskReducer";
 
 type TaskPropsType = {
-    tasksData: taskType
+    tasksData: TaskType
     removeTask: (taskId: string) => void
     changeTaskStatus: (taskId: string, isDone: boolean) => void
     changeTaskTitle: (taskId: string, title: string) => void

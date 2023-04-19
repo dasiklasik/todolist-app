@@ -1,40 +1,29 @@
 import React from "react";
-import {FilterValuesType} from "./App";
 import {Task} from "./Task";
 import {AddItemBlock} from "./AddItemBlock";
 import {EditableSpan} from "./EditableSpan";
 import {Button, IconButton} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
-import {TodolistType} from "./state/todolistReducer";
-import {TaskType} from "./state/taskReducer";
+import {changeTodolistFilter, changeTodolistTitle, removeTodolist, TodolistType} from "./state/todolistReducer";
+import {addTask, changeTaskStatus, changeTaskTitle, removeTask, TaskType} from "./state/taskReducer";
+import {useDispatch, useSelector} from "react-redux";
+import {StoreType} from "./state/store";
 
 type TodolistPropsType = {
     todolistData: TodolistType
-    tasksData: Array<TaskType>
-    removeTask: (todolistId: string, taskId: string) => void
-    changeFilter: (todolistId: string, filter: FilterValuesType) => void
-    addTask: (todolistId: string, title: string) => void
-    changeTaskStatus: (todolistId: string, taskId: string, isDone: boolean) => void
-    removeTodolist: (todolistId: string) => void
-    changeTaskTitle: (todolistId: string, taskId: string, title: string) => void
-    changeTodolistTitle: (todolistId: string, title: string) => void
  }
 
 export const Todolist = (props: TodolistPropsType) => {
 
     const {
         todolistData,
-        tasksData,
-        removeTask,
-        changeFilter,
-        addTask,
-        changeTaskStatus,
-        removeTodolist,
-        changeTaskTitle,
-        changeTodolistTitle,
     } = props
 
-    let taskForTodolist = tasksData
+    const tasks = useSelector<StoreType, {[key: string] : Array<TaskType>}>(state => state.tasks)
+    const dispatch = useDispatch()
+
+
+    let taskForTodolist = tasks[todolistData.id]
 
     if(todolistData.filter === 'active') {
         taskForTodolist = taskForTodolist.filter(task => !task.isDone)
@@ -42,49 +31,49 @@ export const Todolist = (props: TodolistPropsType) => {
         taskForTodolist = taskForTodolist.filter(task => task.isDone)
     }
 
-    const changeFilterAll = () => changeFilter(todolistData.id, 'all')
-    const changeFilterActive = () => changeFilter(todolistData.id, 'active')
-    const changeFilterCompleted = () => changeFilter(todolistData.id, 'completed')
+    const changeFilterAll = () => dispatch(changeTodolistFilter(todolistData.id, 'all'))
+    const changeFilterActive = () => dispatch(changeTodolistFilter(todolistData.id, 'active'))
+    const changeFilterCompleted = () => dispatch(changeTodolistFilter(todolistData.id, 'completed'))
 
-    const addTaskItem = (title: string) => {
-        addTask(todolistData.id, title)
+    const addTaskWrapper = (title: string) => {
+        dispatch(addTask(todolistData.id, title))
     }
 
-    const removeTaskItem = (taskId: string) => {
-        removeTask(todolistData.id, taskId)
+    const removeTaskWrapper = (taskId: string) => {
+        dispatch(removeTask(todolistData.id, taskId))
     }
 
     const changeTaskStatusWrapper = (taskId: string, isDone: boolean) => {
-        changeTaskStatus(todolistData.id, taskId, isDone)
+        dispatch(changeTaskStatus(todolistData.id, taskId, isDone))
     }
 
-    const removeTodolistCallback = () => {
-        removeTodolist(todolistData.id)
+    const removeTodolistWrapper = () => {
+        dispatch(removeTodolist(todolistData.id))
     }
 
     const changeTaskTitleTodoWrapper = (taskId: string, title: string) => {
-        changeTaskTitle(todolistData.id, taskId, title)
+       dispatch(changeTaskTitle(todolistData.id, taskId, title))
     }
 
     const changeTodolistTitleWrapper = (title: string) => {
-        changeTodolistTitle(todolistData.id, title)
+        dispatch(changeTodolistTitle(todolistData.id, title))
     }
 
     return (
         <div className='todolist'>
             <div className='flex-wrapper header'>
                 <EditableSpan title={todolistData.title} callback={changeTodolistTitleWrapper}/>
-                <IconButton color='primary' size='small' aria-label="delete" onClick={removeTodolistCallback}>
+                <IconButton color='primary' size='small' aria-label="delete" onClick={removeTodolistWrapper}>
                     <DeleteIcon />
                 </IconButton>
             </div>
-            <AddItemBlock callback={addTaskItem}/>
+            <AddItemBlock callback={addTaskWrapper}/>
             <ul>
                 {
                     taskForTodolist.map(t => <Task
                         tasksData={t}
                         changeTaskStatus={changeTaskStatusWrapper}
-                        removeTask={removeTaskItem}
+                        removeTask={removeTaskWrapper}
                         changeTaskTitle={changeTaskTitleTodoWrapper}
                     />)
                 }
