@@ -32,6 +32,6 @@ export type TodolistType = {
 }
 
 export type RemoveTodolistType = ReturnType<typeof removeTodolist>
-type AddTodolistType = ReturnType<typeof addTodolist>
+export type AddTodolistType = ReturnType<typeof addTodolist>
 type ChangeTodolistTitleType = ReturnType<typeof changeTodolistTitle>
 type ChangeTodolistFilterType = ReturnType<typeof changeTodolistFilter>
