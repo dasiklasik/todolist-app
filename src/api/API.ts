@@ -30,6 +30,21 @@ export const todolistAPI = {
     },
     updateTodolist: (todolistId: string, title: string) => {
         return instance.put<ResponseType>(`todo-lists/${todolistId}`, {title}).then(response => response.data)
+    },
+}
+
+export const tasksApi = {
+    fetchTasks: (todolistId: string) => {
+        return instance.get<FetchTasksResponseType>(`todo-lists/${todolistId}/tasks`).then(response => response.data)
+    },
+    addTask: (todolistId: string, title: string) => {
+        return instance.post<ResponseType<{item: TaskType}>>(`todo-lists/${todolistId}/tasks`, {title}).then(response => response.data)
+    },
+    updateTask: (todolistId: string, taskId: string, taskData: UpdateTaskType) => {
+        return instance.put<ResponseType<{item: TaskType}>>(`todo-lists/${todolistId}/tasks/${taskId}`, taskData).then(response => response.data)
+    },
+    deleteTask: (todolistId: string, taskId: string) => {
+        instance.put<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`).then(response => response.data)
     }
 }
 
@@ -39,11 +54,41 @@ type LoginDataType = {
     rememberMe: boolean
 }
 
-type TodolistType = {
+export type TodolistType = {
     id: string
-    addedDate: Date
+    addedDate: string
     order: number
     title: string
+}
+
+export type TaskType = {
+    description: string
+    title: string
+    completed: boolean
+    status: number
+    priority: number
+    startDate: string
+    deadline: string
+    id: string
+    todoListId: string
+    order: number
+    addedDate: string
+}
+
+type FetchTasksResponseType = {
+    error: string | null
+    totalCount: number
+    items: TaskType[]
+}
+
+export type UpdateTaskType = {
+    title: string
+    description: string
+    completed: boolean
+    status: number
+    priority: number
+    startDate: string
+    deadline: string
 }
 
 type ResponseType<D = {}> = {
