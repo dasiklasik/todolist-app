@@ -44,7 +44,7 @@ export const tasksApi = {
         return instance.put<ResponseType<{item: TaskType}>>(`todo-lists/${todolistId}/tasks/${taskId}`, taskData).then(response => response.data)
     },
     deleteTask: (todolistId: string, taskId: string) => {
-        instance.put<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`).then(response => response.data)
+        return instance.delete<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`).then(response => response.data)
     }
 }
 
@@ -64,7 +64,6 @@ export type TodolistType = {
 export type TaskType = {
     description: string
     title: string
-    completed: boolean
     status: number
     priority: number
     startDate: string
@@ -84,7 +83,6 @@ type FetchTasksResponseType = {
 export type UpdateTaskType = {
     title: string
     description: string
-    completed: boolean
     status: number
     priority: number
     startDate: string

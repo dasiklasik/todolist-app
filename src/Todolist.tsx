@@ -6,16 +6,12 @@ import {Button, IconButton} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {changeTodolistFilter, changeTodolistTitle, removeTodolist, TodolistAppType} from "./state/todolistReducer";
 import {
-    addTask,
     addTaskThunk,
-    changeTaskStatus,
-    changeTaskTitle,
-    fetchTasksThunk,
-    removeTask
+    fetchTasksThunk, removeTaskThunk, updateTaskThunk
 } from "./state/taskReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {StoreType} from "./state/store";
-import {TaskType} from "./api/API";
+import {TaskType, UpdateTaskType} from "./api/API";
 import {ThunkDispatch} from "redux-thunk";
 import {AnyAction} from "redux";
 
@@ -32,7 +28,6 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
     const dispatch = useDispatch<ThunkDispatch<StoreType, void, AnyAction>>()
 
     useEffect(() => {
-        debugger
         dispatch(fetchTasksThunk(todolistData.id))
     }, [todolistData.id])
 
@@ -41,9 +36,9 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
     let taskForTodolist = tasks[todolistData.id]
 
     if(todolistData.filter === 'active') {
-        taskForTodolist = taskForTodolist.filter(task => !task.completed)
+        taskForTodolist = taskForTodolist.filter(task => !task.status)
     } else if (todolistData.filter === 'completed') {
-        taskForTodolist = taskForTodolist.filter(task => task.completed)
+        taskForTodolist = taskForTodolist.filter(task => task.status)
     }
 
     const changeFilterAll = useCallback(() => dispatch(changeTodolistFilter(todolistData.id, 'all')), [todolistData.id, dispatch, changeTodolistFilter])
@@ -54,25 +49,23 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
         dispatch(addTaskThunk(todolistData.id, title))
     }, [dispatch, addTaskThunk, todolistData.id])
 
-    const removeTaskWrapper = useCallback((taskId: string) => {
-        dispatch(removeTask(todolistData.id, taskId))
-    }, [dispatch, removeTask, todolistData.id])
+    const removeTask = useCallback((taskId: string) => {
+        dispatch(removeTaskThunk(todolistData.id, taskId))
+    }, [dispatch, removeTaskThunk, todolistData.id])
 
-    const changeTaskStatusWrapper = useCallback((taskId: string, isDone: boolean) => {
-        dispatch(changeTaskStatus(todolistData.id, taskId, isDone))
-    }, [dispatch, changeTaskStatus, todolistData.id])
 
     const removeTodolistWrapper = useCallback(() => {
         dispatch(removeTodolist(todolistData.id))
     }, [dispatch, removeTodolist, todolistData.id])
 
-    const changeTaskTitleTodoWrapper = useCallback((taskId: string, title: string) => {
-       dispatch(changeTaskTitle(todolistData.id, taskId, title))
-    }, [dispatch, changeTaskTitle, todolistData.id])
 
     const changeTodolistTitleWrapper = useCallback((title: string) => {
         dispatch(changeTodolistTitle(todolistData.id, title))
     }, [dispatch, changeTodolistTitle, todolistData.id])
+
+    const updateTask = useCallback((taskId: string, taskData: UpdateTaskType) => {
+        dispatch(updateTaskThunk(todolistData.id, taskId, taskData))
+    }, [])
 
     return (
         <div className='todolist'>
@@ -87,9 +80,8 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
                 {
                     taskForTodolist.map(t => <Task
                         tasksData={t}
-                        changeTaskStatus={changeTaskStatusWrapper}
-                        removeTask={removeTaskWrapper}
-                        changeTaskTitle={changeTaskTitleTodoWrapper}
+                        removeTask={removeTask}
+                        updateTask={updateTask}
                     />)
                 }
             </ul>
