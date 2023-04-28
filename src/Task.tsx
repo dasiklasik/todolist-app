@@ -2,7 +2,7 @@ import React, {ChangeEvent, useCallback} from "react";
 import {EditableSpan} from "./EditableSpan";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {Checkbox, IconButton} from "@mui/material";
-import {TaskType} from "./state/taskReducer";
+import { TaskType } from "./api/API";
 
 type TaskPropsType = {
     tasksData: TaskType
@@ -31,11 +31,11 @@ export const Task = React.memo((props: TaskPropsType) => {
         changeTaskTitle(tasksData.id, title)
     }, [changeTaskTitle, tasksData.id])
 
-    const taskClassName = tasksData.isDone ? 'is-done' : ''
+    const taskClassName = tasksData.completed ? 'is-done' : ''
 
     return (
         <li key={tasksData.id} className={taskClassName}>
-            <Checkbox color='primary' onChange={onChangeHandler} checked={tasksData.isDone}/>
+            <Checkbox color='primary' onChange={onChangeHandler} checked={tasksData.completed}/>
             <EditableSpan title={tasksData.title} callback={changeTaskTitleTaskWrapper}/>
             <IconButton color='primary' size='small' aria-label="delete" onClick={onClickHandler}>
                 <DeleteIcon />

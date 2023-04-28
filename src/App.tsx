@@ -6,14 +6,20 @@ import {AddItemBlock} from "./AddItemBlock";
 import {Container, Grid, Paper} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import { StoreType } from './state/store';
-import {addTodolist, TodolistType} from "./state/todolistReducer";
-import {todolistAPI} from "./api/API";
+import {addTodolist, fetchTodolistThunk, TodolistAppType} from "./state/todolistReducer";
+import {todolistAPI, TodolistType} from "./api/API";
+import {AnyAction} from "redux";
+import { ThunkDispatch } from 'redux-thunk';
 
 
 function App() {
 
-    const todolists = useSelector<StoreType, Array<TodolistType>>(state => state.todolist)
-    const dispatch = useDispatch()
+    const todolists = useSelector<StoreType, Array<TodolistAppType>>(state => state.todolist)
+    const dispatch = useDispatch<ThunkDispatch<StoreType, void, AnyAction>>()
+
+    useEffect(() => {
+        dispatch(fetchTodolistThunk())
+    }, [])
 
     const addTodolistWrapper = useCallback((title: string) => {
         const id = v1()

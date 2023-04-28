@@ -30,10 +30,11 @@ export const AddItemBlock =  React.memo((props: AddItemBlockPropsType) => {
     }
 
     const onEnterHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+
         if(e.key === 'Enter') {
             if(inputValue.trim() === '') {
                 setError('Title is required!')
-            } else if(inputValue.trim() === '') {
+            } else if(inputValue.trim() !== '') {
                 callback(inputValue.trim())
                 setInputValue('')
             }

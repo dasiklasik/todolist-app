@@ -1,16 +1,26 @@
-import React, {useCallback} from "react";
+import React, {useCallback, useEffect} from "react";
 import {Task} from "./Task";
 import {AddItemBlock} from "./AddItemBlock";
 import {EditableSpan} from "./EditableSpan";
 import {Button, IconButton} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
-import {changeTodolistFilter, changeTodolistTitle, removeTodolist, TodolistType} from "./state/todolistReducer";
-import {addTask, changeTaskStatus, changeTaskTitle, removeTask, TaskType} from "./state/taskReducer";
+import {changeTodolistFilter, changeTodolistTitle, removeTodolist, TodolistAppType} from "./state/todolistReducer";
+import {
+    addTask,
+    addTaskThunk,
+    changeTaskStatus,
+    changeTaskTitle,
+    fetchTasksThunk,
+    removeTask
+} from "./state/taskReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {StoreType} from "./state/store";
+import {TaskType} from "./api/API";
+import {ThunkDispatch} from "redux-thunk";
+import {AnyAction} from "redux";
 
 type TodolistPropsType = {
-    todolistData: TodolistType
+    todolistData: TodolistAppType
  }
 
 export const Todolist = React.memo((props: TodolistPropsType) => {
@@ -19,25 +29,30 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
         todolistData,
     } = props
 
-    const tasks = useSelector<StoreType, {[key: string] : Array<TaskType>}>(state => state.tasks)
-    const dispatch = useDispatch()
+    const dispatch = useDispatch<ThunkDispatch<StoreType, void, AnyAction>>()
 
+    useEffect(() => {
+        debugger
+        dispatch(fetchTasksThunk(todolistData.id))
+    }, [todolistData.id])
+
+    const tasks = useSelector<StoreType, {[key: string] : Array<TaskType>}>(state => state.tasks)
 
     let taskForTodolist = tasks[todolistData.id]
 
     if(todolistData.filter === 'active') {
-        taskForTodolist = taskForTodolist.filter(task => !task.isDone)
+        taskForTodolist = taskForTodolist.filter(task => !task.completed)
     } else if (todolistData.filter === 'completed') {
-        taskForTodolist = taskForTodolist.filter(task => task.isDone)
+        taskForTodolist = taskForTodolist.filter(task => task.completed)
     }
 
     const changeFilterAll = useCallback(() => dispatch(changeTodolistFilter(todolistData.id, 'all')), [todolistData.id, dispatch, changeTodolistFilter])
     const changeFilterActive = useCallback(() => dispatch(changeTodolistFilter(todolistData.id, 'active')), [todolistData.id, dispatch, changeTodolistFilter])
     const changeFilterCompleted = useCallback(() => dispatch(changeTodolistFilter(todolistData.id, 'completed')), [todolistData.id, dispatch, changeTodolistFilter])
 
-    const addTaskWrapper = useCallback((title: string) => {
-        dispatch(addTask(todolistData.id, title))
-    }, [dispatch, addTask, todolistData.id])
+    const addTask = useCallback((title: string) => {
+        dispatch(addTaskThunk(todolistData.id, title))
+    }, [dispatch, addTaskThunk, todolistData.id])
 
     const removeTaskWrapper = useCallback((taskId: string) => {
         dispatch(removeTask(todolistData.id, taskId))
@@ -67,7 +82,7 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
                     <DeleteIcon />
                 </IconButton>
             </div>
-            <AddItemBlock callback={addTaskWrapper}/>
+            <AddItemBlock callback={addTask}/>
             <ul>
                 {
                     taskForTodolist.map(t => <Task
