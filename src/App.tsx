@@ -6,7 +6,7 @@ import {AddItemBlock} from "./AddItemBlock";
 import {Container, Grid, Paper} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import { StoreType } from './state/store';
-import {addTodolist, fetchTodolistThunk, TodolistAppType} from "./state/todolistReducer";
+import {addTodolist, addTodolistThunk, fetchTodolistThunk, TodolistAppType} from "./state/todolistReducer";
 import {todolistAPI, TodolistType} from "./api/API";
 import {AnyAction} from "redux";
 import { ThunkDispatch } from 'redux-thunk';
@@ -22,8 +22,7 @@ function App() {
     }, [])
 
     const addTodolistWrapper = useCallback((title: string) => {
-        const id = v1()
-        dispatch(addTodolist(id, title))
+        dispatch(addTodolistThunk(title))
     }, [dispatch, addTodolist])
 
     return (
@@ -35,10 +34,9 @@ function App() {
 
                 <Grid container spacing={3} style={{marginTop: '20px'}}>
                     {todolists.map(tl => {
-                        return <Grid item>
+                        return <Grid item key={tl.id}>
                             <Paper style={{padding: '10px'}}>
                                 <Todolist
-                                    key={tl.id}
                                     todolistData={tl}
                                 />
                             </Paper>

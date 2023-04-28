@@ -27,7 +27,7 @@ export const taskReducer = (state = initialState, action: ActionType): StateType
             return {...state, [action.todolistId]: state[action.todolistId]
                     .map(i => i.id === action.taskData.id ? action.taskData : i)}
         case "ADD-TODOLIST":
-            // return {...state, [action.todolistId]: []}
+            return {...state, [action.todolistData.id]: []}
         default: return state
     }
 }
@@ -49,6 +49,7 @@ export const fetchTasksThunk = (todolistId: string) => (dispatch: ThunkDispatch<
 export const addTaskThunk = (todolistId: string, title: string) => (dispatch: ThunkDispatch<StoreType, void, AnyAction>) => {
     tasksApi.addTask(todolistId, title)
         .then(response => {
+            debugger
             if(response.resultCode === 0) {
                 dispatch(addTask(todolistId, response.data.item))
             }

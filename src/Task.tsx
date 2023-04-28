@@ -49,7 +49,7 @@ export const Task = React.memo((props: TaskPropsType) => {
     const taskClassName = tasksData.status ? 'is-done' : ''
 
     return (
-        <li key={tasksData.id} className={taskClassName}>
+        <li className={taskClassName}>
             <Checkbox color='primary' onChange={onChangeHandler} checked={!!tasksData.status}/>
             <EditableSpan title={tasksData.title} callback={changeTaskTitleTaskWrapper}/>
             <IconButton color='primary' size='small' aria-label="delete" onClick={onClickHandler}>
