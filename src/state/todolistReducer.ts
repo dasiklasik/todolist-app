@@ -3,6 +3,7 @@ import {tasksApi, todolistAPI, TodolistType} from "../api/API";
 import {AnyAction, Dispatch} from "redux";
 import {ThunkDispatch} from "redux-thunk";
 import {StoreType} from "./store";
+import {setAppStatus} from "./appReducer";
 
 export type FilterValuesType = 'all' | 'active' | 'completed'
 
@@ -37,8 +38,10 @@ const setTodolists = (todolistData: TodolistType[]) => ({type: 'SET-TODOLISTS', 
 
 //thunks
 export const fetchTodolistThunk = () => (dispatch: Dispatch) => {
+    dispatch(setAppStatus('loading'))
     todolistAPI.fetchTodolists()
         .then(response => {
+            dispatch(setAppStatus('succeeded'))
             dispatch(setTodolists(response))
         })
 }
