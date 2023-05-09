@@ -11,6 +11,7 @@ import {todolistAPI, TodolistType} from "./api/API";
 import {AnyAction} from "redux";
 import { ThunkDispatch } from 'redux-thunk';
 import {RequestStatusType} from "./state/appReducer";
+import {ErrorSnackbar} from "./ErrorSnackbar";
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
     return (
         <div className='app'>
             {status === 'loading' && <LinearProgress/>}
+
             <div className='wrapper'>
                 <Container fixed>
                     <Grid container>
@@ -51,6 +53,7 @@ function App() {
                 </Container>
 
             </div>
+            <ErrorSnackbar/>
         </div>
     );
 }

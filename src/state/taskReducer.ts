@@ -3,6 +3,7 @@ import {AnyAction, Dispatch} from "redux";
 import {tasksApi, TaskType, UpdateTaskType} from "../api/API";
 import {ThunkDispatch} from "redux-thunk";
 import {StoreType} from "./store";
+import {setAppError} from "./appReducer";
 
 let initialState: StateType = {}
 
@@ -49,10 +50,15 @@ export const fetchTasksThunk = (todolistId: string) => (dispatch: ThunkDispatch<
 export const addTaskThunk = (todolistId: string, title: string) => (dispatch: ThunkDispatch<StoreType, void, AnyAction>) => {
     tasksApi.addTask(todolistId, title)
         .then(response => {
-            debugger
             if(response.resultCode === 0) {
                 dispatch(addTask(todolistId, response.data.item))
+            } else {
+                dispatch(setAppError(response.messages[0]))
             }
+        })
+        .catch(error => {
+            console.log(error)
+            // dispatch(setAppError(error))
         })
 }
 

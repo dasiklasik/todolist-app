@@ -38,7 +38,9 @@ export const tasksApi = {
         return instance.get<FetchTasksResponseType>(`todo-lists/${todolistId}/tasks`).then(response => response.data)
     },
     addTask: (todolistId: string, title: string) => {
-        return instance.post<ResponseType<{item: TaskType}>>(`todo-lists/${todolistId}/tasks`, {title}).then(response => response.data)
+        return instance.post<ResponseType<{item: TaskType}>>(`todo-lists/${todolistId}/tasks`, {title})
+            .then(response => response.data)
+            .catch(error => error)
     },
     updateTask: (todolistId: string, taskId: string, taskData: UpdateTaskType) => {
         return instance.put<ResponseType<{item: TaskType}>>(`todo-lists/${todolistId}/tasks/${taskId}`, taskData).then(response => response.data)
