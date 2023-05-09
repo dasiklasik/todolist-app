@@ -4,7 +4,12 @@ import {AddItemBlock} from "./AddItemBlock";
 import {EditableSpan} from "./EditableSpan";
 import {Button, IconButton} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
-import {changeTodolistFilter, changeTodolistTitle, removeTodolist, TodolistAppType} from "./state/todolistReducer";
+import {
+    changeTodolistFilter,
+    changeTodolistTitle,
+    removeTodolistThunk,
+    TodolistAppType
+} from "./state/todolistReducer";
 import {
     addTaskThunk,
     fetchTasksThunk, removeTaskThunk, updateTaskThunk
@@ -55,8 +60,8 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
 
 
     const removeTodolistWrapper = useCallback(() => {
-        dispatch(removeTodolist(todolistData.id))
-    }, [dispatch, removeTodolist, todolistData.id])
+        dispatch(removeTodolistThunk(todolistData.id))
+    }, [dispatch, removeTodolistThunk, todolistData.id])
 
 
     const changeTodolistTitleWrapper = useCallback((title: string) => {
@@ -71,7 +76,13 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
         <div className='todolist'>
             <div className='flex-wrapper header'>
                 <EditableSpan title={todolistData.title} callback={changeTodolistTitleWrapper}/>
-                <IconButton color='primary' size='small' aria-label="delete" onClick={removeTodolistWrapper}>
+                <IconButton
+                    color='primary'
+                    size='small'
+                    aria-label="delete"
+                    onClick={removeTodolistWrapper}
+                    disabled={todolistData.entityStatus === 'loading'}
+                >
                     <DeleteIcon />
                 </IconButton>
             </div>

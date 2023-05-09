@@ -1,5 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {v1} from 'uuid';
+import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import {Todolist} from "./Todolist";
 import {AddItemBlock} from "./AddItemBlock";
@@ -7,7 +6,6 @@ import {Container, Grid, LinearProgress, Paper} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import { StoreType } from './state/store';
 import {addTodolist, addTodolistThunk, fetchTodolistThunk, TodolistAppType} from "./state/todolistReducer";
-import {todolistAPI, TodolistType} from "./api/API";
 import {AnyAction} from "redux";
 import { ThunkDispatch } from 'redux-thunk';
 import {RequestStatusType} from "./state/appReducer";

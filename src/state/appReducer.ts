@@ -1,5 +1,4 @@
 import {Simulate} from "react-dom/test-utils";
-import error = Simulate.error;
 
 const initialState = {
     status: 'loading' as RequestStatusType,
