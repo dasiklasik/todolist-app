@@ -93,9 +93,9 @@ export type UpdateTaskType = {
     deadline: string
 }
 
-type ResponseType<D = {}> = {
+export type ResponseType<D = {}> = {
     resultCode: number
-    messages: [],
+    messages: string[],
     data: D
 }
 

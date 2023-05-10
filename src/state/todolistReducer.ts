@@ -4,6 +4,7 @@ import {AnyAction, Dispatch} from "redux";
 import {ThunkDispatch} from "redux-thunk";
 import {StoreType} from "./store";
 import {RequestStatusType, setAppError, setAppStatus} from "./appReducer";
+import {handleServerAppError, handleServerNetworkError} from "../utils/erorr-utils";
 
 export type FilterValuesType = 'all' | 'active' | 'completed'
 
@@ -47,10 +48,7 @@ export const fetchTodolistThunk = () => (dispatch: Dispatch) => {
             dispatch(setAppStatus('succeeded'))
             dispatch(setTodolists(response))
         })
-        .catch(error => {
-            dispatch(setAppStatus('failed'))
-            dispatch(setAppError(error))
-        })
+        .catch(error => handleServerNetworkError(error, dispatch))
 }
 
 export const addTodolistThunk = (title: string) => (dispatch: ThunkDispatch<StoreType, void, AnyAction>) => {
@@ -58,8 +56,11 @@ export const addTodolistThunk = (title: string) => (dispatch: ThunkDispatch<Stor
         .then(response => {
             if(response.resultCode === 0) {
                 dispatch(addTodolist(response.data.item))
+            } else {
+                handleServerAppError(response, dispatch)
             }
         })
+        .catch(error => handleServerNetworkError(error, dispatch))
 }
 
 export const removeTodolistThunk = (todolistId: string) => (dispatch: ThunkDispatch<StoreType, void, AnyAction>) => {
@@ -69,8 +70,11 @@ export const removeTodolistThunk = (todolistId: string) => (dispatch: ThunkDispa
             if (response.resultCode === 0) {
                 dispatch(removeTodolist(todolistId))
                 dispatch(setTodolistStatus(todolistId, 'succeeded'))
+            } else {
+                handleServerAppError(response, dispatch)
             }
         })
+        .catch(error => handleServerNetworkError(error, dispatch))
 }
 
 export const updateTodolistThunk = (todolistId: string, title: string) => (dispatch: ThunkDispatch<StoreType, void, AnyAction>) => {
@@ -78,8 +82,11 @@ export const updateTodolistThunk = (todolistId: string, title: string) => (dispa
         .then(response => {
             if (response.resultCode === 0) {
                 dispatch(changeTodolistTitle(todolistId, title))
+            } else {
+                handleServerAppError(response, dispatch)
             }
         })
+        .catch(error => handleServerNetworkError(error, dispatch))
 }
 
 

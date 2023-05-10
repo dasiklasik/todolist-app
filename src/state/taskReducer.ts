@@ -2,15 +2,13 @@ import {
     AddTodolistType,
     RemoveTodolistType,
     setTodolistStatus,
-    SetTodolistsType,
-    todolistId1,
-    todolistId2
+    SetTodolistsType
 } from "./todolistReducer";
-import {AnyAction, Dispatch} from "redux";
+import {AnyAction} from "redux";
 import {tasksApi, TaskType, UpdateTaskType} from "../api/API";
 import {ThunkDispatch} from "redux-thunk";
 import {StoreType} from "./store";
-import {setAppError, setAppStatus} from "./appReducer";
+import {handleServerAppError, handleServerNetworkError} from "../utils/erorr-utils";
 
 let initialState: StateType = {}
 
@@ -52,10 +50,7 @@ export const fetchTasksThunk = (todolistId: string) => (dispatch: ThunkDispatch<
         .then(response => {
             dispatch(setTasks(todolistId, response.items))
         })
-        .catch(error => {
-            dispatch(setAppStatus('failed'))
-            dispatch(setAppError(error.message))
-        })
+        .catch(error => handleServerNetworkError(error, dispatch))
 }
 
 export const addTaskThunk = (todolistId: string, title: string) => (dispatch: ThunkDispatch<StoreType, void, AnyAction>) => {
@@ -66,14 +61,10 @@ export const addTaskThunk = (todolistId: string, title: string) => (dispatch: Th
                 dispatch(addTask(todolistId, response.data.item))
                 dispatch(setTodolistStatus(todolistId, 'succeeded'))
             } else {
-                dispatch(setAppError(response.messages[0]))
-                dispatch(setTodolistStatus(todolistId, 'failed'))
+                handleServerAppError(response, dispatch)
             }
         })
-        .catch(error => {
-            dispatch(setAppError(error))
-            dispatch(setAppStatus('failed'))
-        })
+        .catch(error => handleServerNetworkError(error, dispatch))
 }
 
 export const removeTaskThunk = (todolistId: string, taskId: string) => (dispatch: ThunkDispatch<StoreType, void, AnyAction>) => {
@@ -81,12 +72,11 @@ export const removeTaskThunk = (todolistId: string, taskId: string) => (dispatch
         .then(response => {
             if(response.resultCode === 0) {
                 dispatch(fetchTasksThunk(todolistId))
+            } else {
+                handleServerAppError(response, dispatch)
             }
         })
-        .catch(error => {
-            dispatch(setAppStatus('failed'))
-            dispatch(setAppError(error.message))
-        })
+        .catch(error => handleServerNetworkError(error, dispatch))
 }
 
 export const updateTaskThunk = (todolistId: string, taskId: string, taskData: UpdateTaskType) => (dispatch: ThunkDispatch<StoreType, void, AnyAction>) =>{
@@ -96,14 +86,10 @@ export const updateTaskThunk = (todolistId: string, taskId: string, taskData: Up
             if(response.resultCode === 0) {
                 dispatch(changeTask(todolistId, response.data.item))
             } else {
-                dispatch(setAppStatus('failed'))
-                dispatch(setAppError(response.messages[0]))
+                handleServerAppError(response, dispatch)
             }
         })
-        .catch(error => {
-            dispatch(setAppStatus('failed'))
-            dispatch(setAppError(error.message))
-        })
+        .catch(error => handleServerNetworkError(error, dispatch))
 }
 
 
