@@ -10,7 +10,7 @@ import {
     TodolistAppType, updateTodolistThunk
 } from "../../state/todolistReducer";
 import {
-    addTaskThunk,
+    addTaskThunk, AppTaskType,
     fetchTasksThunk, removeTaskThunk, updateTaskThunk
 } from "../../state/taskReducer";
 import {useDispatch, useSelector} from "react-redux";
@@ -35,7 +35,7 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
         dispatch(fetchTasksThunk(todolistData.id))
     }, [todolistData.id])
 
-    const tasks = useSelector<StoreType, {[key: string] : Array<TaskType>}>(state => state.tasks)
+    const tasks = useSelector<StoreType, {[key: string] : Array<AppTaskType>}>(state => state.tasks)
 
     let taskForTodolist = tasks[todolistData.id]
 
@@ -74,7 +74,7 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
     return (
         <div className='todolist'>
             <div className='flex-wrapper header'>
-                <EditableSpan title={todolistData.title} callback={changeTodolistTitle}/>
+                <EditableSpan disabled={todolistData.entityStatus === 'loading'} title={todolistData.title} callback={changeTodolistTitle}/>
                 <IconButton
                     color='primary'
                     size='small'
