@@ -1,15 +1,15 @@
 import React, {useCallback, useEffect} from 'react';
 import './App.css';
-import {Todolist} from "./Todolist";
-import {AddItemBlock} from "./AddItemBlock";
+import {Todolist} from "./Todolist/Todolist";
+import {AddItemBlock} from "./AddItemBlock/AddItemBlock";
 import {Container, Grid, LinearProgress, Paper} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
-import { StoreType } from './state/store';
-import {addTodolist, addTodolistThunk, fetchTodolistThunk, TodolistAppType} from "./state/todolistReducer";
+import { StoreType } from '../state/store';
+import {addTodolist, addTodolistThunk, fetchTodolistThunk, TodolistAppType} from "../state/todolistReducer";
 import {AnyAction} from "redux";
 import { ThunkDispatch } from 'redux-thunk';
-import {RequestStatusType} from "./state/appReducer";
-import {ErrorSnackbar} from "./ErrorSnackbar";
+import {RequestStatusType} from "../state/appReducer";
+import {ErrorSnackbar} from "./ErrorSnackbar/ErrorSnackbar";
 
 
 function App() {

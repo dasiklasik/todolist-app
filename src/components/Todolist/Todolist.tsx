@@ -1,21 +1,21 @@
 import React, {useCallback, useEffect} from "react";
-import {Task} from "./Task";
-import {AddItemBlock} from "./AddItemBlock";
-import {EditableSpan} from "./EditableSpan";
+import {Task} from "./Task/Task";
+import {AddItemBlock} from "../AddItemBlock/AddItemBlock";
+import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {Button, IconButton} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {
     changeTodolistFilter,
     removeTodolistThunk,
     TodolistAppType, updateTodolistThunk
-} from "./state/todolistReducer";
+} from "../../state/todolistReducer";
 import {
     addTaskThunk,
     fetchTasksThunk, removeTaskThunk, updateTaskThunk
-} from "./state/taskReducer";
+} from "../../state/taskReducer";
 import {useDispatch, useSelector} from "react-redux";
-import {StoreType} from "./state/store";
-import {TaskType, UpdateTaskType} from "./api/API";
+import {StoreType} from "../../state/store";
+import {TaskType, UpdateTaskType} from "../../api/API";
 import {ThunkDispatch} from "redux-thunk";
 import {AnyAction} from "redux";
 
