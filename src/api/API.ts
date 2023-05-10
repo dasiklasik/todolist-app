@@ -43,7 +43,9 @@ export const tasksApi = {
             .catch(error => error)
     },
     updateTask: (todolistId: string, taskId: string, taskData: UpdateTaskType) => {
-        return instance.put<ResponseType<{item: TaskType}>>(`todo-lists/${todolistId}/tasks/${taskId}`, taskData).then(response => response.data)
+        return instance.put<ResponseType<{item: TaskType}>>(`todo-lists/${todolistId}/tasks/${taskId}`, taskData)
+            .then(response => response.data)
+            .catch(error => error)
     },
     deleteTask: (todolistId: string, taskId: string) => {
         return instance.delete<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`).then(response => response.data)

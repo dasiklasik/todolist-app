@@ -1,4 +1,3 @@
-import {Simulate} from "react-dom/test-utils";
 
 const initialState = {
     status: 'loading' as RequestStatusType,

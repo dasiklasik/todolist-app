@@ -10,7 +10,7 @@ import {AnyAction, Dispatch} from "redux";
 import {tasksApi, TaskType, UpdateTaskType} from "../api/API";
 import {ThunkDispatch} from "redux-thunk";
 import {StoreType} from "./store";
-import {setAppError} from "./appReducer";
+import {setAppError, setAppStatus} from "./appReducer";
 
 let initialState: StateType = {}
 
@@ -52,6 +52,10 @@ export const fetchTasksThunk = (todolistId: string) => (dispatch: ThunkDispatch<
         .then(response => {
             dispatch(setTasks(todolistId, response.items))
         })
+        .catch(error => {
+            dispatch(setAppStatus('failed'))
+            dispatch(setAppError(error.message))
+        })
 }
 
 export const addTaskThunk = (todolistId: string, title: string) => (dispatch: ThunkDispatch<StoreType, void, AnyAction>) => {
@@ -66,6 +70,10 @@ export const addTaskThunk = (todolistId: string, title: string) => (dispatch: Th
                 dispatch(setTodolistStatus(todolistId, 'failed'))
             }
         })
+        .catch(error => {
+            dispatch(setAppError(error))
+            dispatch(setAppStatus('failed'))
+        })
 }
 
 export const removeTaskThunk = (todolistId: string, taskId: string) => (dispatch: ThunkDispatch<StoreType, void, AnyAction>) => {
@@ -75,6 +83,10 @@ export const removeTaskThunk = (todolistId: string, taskId: string) => (dispatch
                 dispatch(fetchTasksThunk(todolistId))
             }
         })
+        .catch(error => {
+            dispatch(setAppStatus('failed'))
+            dispatch(setAppError(error.message))
+        })
 }
 
 export const updateTaskThunk = (todolistId: string, taskId: string, taskData: UpdateTaskType) => (dispatch: ThunkDispatch<StoreType, void, AnyAction>) =>{
@@ -83,7 +95,14 @@ export const updateTaskThunk = (todolistId: string, taskId: string, taskData: Up
             debugger
             if(response.resultCode === 0) {
                 dispatch(changeTask(todolistId, response.data.item))
+            } else {
+                dispatch(setAppStatus('failed'))
+                dispatch(setAppError(response.messages[0]))
             }
+        })
+        .catch(error => {
+            dispatch(setAppStatus('failed'))
+            dispatch(setAppError(error.message))
         })
 }
 
