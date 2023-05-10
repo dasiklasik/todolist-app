@@ -8,7 +8,7 @@ import {
     changeTodolistFilter,
     changeTodolistTitle,
     removeTodolistThunk,
-    TodolistAppType
+    TodolistAppType, updateTodolistThunk
 } from "./state/todolistReducer";
 import {
     addTaskThunk,
@@ -64,9 +64,9 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
     }, [dispatch, removeTodolistThunk, todolistData.id])
 
 
-    const changeTodolistTitleWrapper = useCallback((title: string) => {
-        dispatch(changeTodolistTitle(todolistData.id, title))
-    }, [dispatch, changeTodolistTitle, todolistData.id])
+    const changeTodolistTitle = useCallback((title: string) => {
+        dispatch(updateTodolistThunk(todolistData.id, title))
+    }, [dispatch, updateTodolistThunk, todolistData.id])
 
     const updateTask = useCallback((taskId: string, taskData: UpdateTaskType) => {
         dispatch(updateTaskThunk(todolistData.id, taskId, taskData))
@@ -75,7 +75,7 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
     return (
         <div className='todolist'>
             <div className='flex-wrapper header'>
-                <EditableSpan title={todolistData.title} callback={changeTodolistTitleWrapper}/>
+                <EditableSpan title={todolistData.title} callback={changeTodolistTitle}/>
                 <IconButton
                     color='primary'
                     size='small'
