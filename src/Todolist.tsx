@@ -6,7 +6,6 @@ import {Button, IconButton} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {
     changeTodolistFilter,
-    changeTodolistTitle,
     removeTodolistThunk,
     TodolistAppType, updateTodolistThunk
 } from "./state/todolistReducer";
@@ -86,7 +85,7 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
                     <DeleteIcon />
                 </IconButton>
             </div>
-            <AddItemBlock callback={addTask}/>
+            <AddItemBlock callback={addTask} disabled={todolistData.entityStatus === 'loading'}/>
             <ul>
                 {
                     taskForTodolist.map(t => <Task

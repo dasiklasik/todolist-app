@@ -4,11 +4,15 @@ import {AddBox} from "@mui/icons-material";
 
 type AddItemBlockPropsType = {
     callback: (title: string) => void
+    disabled?: boolean
 }
 
 export const AddItemBlock =  React.memo((props: AddItemBlockPropsType) => {
 
-    const {callback} = props
+    const {
+        callback,
+        disabled,
+    } = props
 
     const [inputValue, setInputValue] = useState('')
     const [error, setError] = useState<string | null>(null)
@@ -52,7 +56,7 @@ export const AddItemBlock =  React.memo((props: AddItemBlockPropsType) => {
                 onChange={onChangeInputHandler}
                 value={inputValue}
             />
-            <IconButton color='primary' onClick={onClickButtonHandler}>
+            <IconButton color='primary' onClick={onClickButtonHandler} disabled={disabled}>
                 <AddBox/>
             </IconButton>
         </div>

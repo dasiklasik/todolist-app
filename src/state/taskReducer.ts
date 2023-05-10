@@ -1,4 +1,11 @@
-import {AddTodolistType, RemoveTodolistType, SetTodolistsType, todolistId1, todolistId2} from "./todolistReducer";
+import {
+    AddTodolistType,
+    RemoveTodolistType,
+    setTodolistStatus,
+    SetTodolistsType,
+    todolistId1,
+    todolistId2
+} from "./todolistReducer";
 import {AnyAction, Dispatch} from "redux";
 import {tasksApi, TaskType, UpdateTaskType} from "../api/API";
 import {ThunkDispatch} from "redux-thunk";
@@ -48,17 +55,16 @@ export const fetchTasksThunk = (todolistId: string) => (dispatch: ThunkDispatch<
 }
 
 export const addTaskThunk = (todolistId: string, title: string) => (dispatch: ThunkDispatch<StoreType, void, AnyAction>) => {
+    dispatch(setTodolistStatus(todolistId, 'loading'))
     tasksApi.addTask(todolistId, title)
         .then(response => {
             if(response.resultCode === 0) {
                 dispatch(addTask(todolistId, response.data.item))
+                dispatch(setTodolistStatus(todolistId, 'succeeded'))
             } else {
                 dispatch(setAppError(response.messages[0]))
+                dispatch(setTodolistStatus(todolistId, 'failed'))
             }
-        })
-        .catch(error => {
-            console.log(error)
-            // dispatch(setAppError(error))
         })
 }
 

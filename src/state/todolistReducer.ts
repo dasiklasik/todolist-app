@@ -37,7 +37,7 @@ export const addTodolist = (todolistData: TodolistType) => ({type: 'ADD-TODOLIST
 export const changeTodolistTitle = (todolistId: string, title: string) => ({type: 'CHANGE-TODOLIST-TITLE', todolistId, title} as const)
 export const changeTodolistFilter = (todolistId: string, filter: FilterValuesType) => ({type: 'CHANGE-TODOLIST-FILTER', todolistId, filter} as const)
 const setTodolists = (todolistData: TodolistType[]) => ({type: 'SET-TODOLISTS', todolistData} as const)
-const setTodolistStatus = (todolistId: string, status: RequestStatusType) => ({type: 'SET-TODOLIST-STATUS', todolistId, status} as const)
+export const setTodolistStatus = (todolistId: string, status: RequestStatusType) => ({type: 'SET-TODOLIST-STATUS', todolistId, status} as const)
 
 //thunks
 export const fetchTodolistThunk = () => (dispatch: Dispatch) => {
@@ -93,4 +93,4 @@ export type AddTodolistType = ReturnType<typeof addTodolist>
 type ChangeTodolistTitleType = ReturnType<typeof changeTodolistTitle>
 type ChangeTodolistFilterType = ReturnType<typeof changeTodolistFilter>
 export type SetTodolistsType = ReturnType<typeof setTodolists>
-type SetTodolistStatus = ReturnType<typeof setTodolistStatus>
+export type SetTodolistStatus = ReturnType<typeof setTodolistStatus>
