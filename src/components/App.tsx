@@ -10,49 +10,30 @@ import {AnyAction} from "redux";
 import { ThunkDispatch } from 'redux-thunk';
 import {RequestStatusType} from "../state/appReducer";
 import {ErrorSnackbar} from "./ErrorSnackbar/ErrorSnackbar";
+import {BrowserRouter, Routes, Route} from "react-router-dom";
+import {TodolistList} from "./Todolist/TodolistList";
+import { Login } from './Login';
 
 
 function App() {
 
-    const todolists = useSelector<StoreType, Array<TodolistAppType>>(state => state.todolist)
-    const status = useSelector<StoreType, RequestStatusType>(state => state.app.status)
-    const dispatch = useDispatch<ThunkDispatch<StoreType, void, AnyAction>>()
 
-    useEffect(() => {
-        dispatch(fetchTodolistThunk())
-    }, [])
-
-    const addTodolistWrapper = useCallback((title: string) => {
-        dispatch(addTodolistThunk(title))
-    }, [dispatch, addTodolist])
 
     return (
-        <div className='app'>
-            {status === 'loading' && <LinearProgress/>}
+        <BrowserRouter>
+            <div className='app'>
 
-            <div className='wrapper'>
                 <Container fixed>
-                    <Grid container>
-                        <AddItemBlock callback={addTodolistWrapper}/>
-                    </Grid>
+                    <Routes>
+                        <Route path='/' element={<TodolistList/>}/>
+                        <Route path='/login' element={<Login/>}/>
+                        <Route path='*' element={<h1>404: PAGE NOT FOUND</h1>} />
 
-                    <Grid container spacing={3} style={{marginTop: '20px'}}>
-                        {todolists.map(tl => {
-                            return <Grid item key={tl.id}>
-                                <Paper style={{padding: '10px'}}>
-                                    <Todolist
-                                        todolistData={tl}
-                                    />
-                                </Paper>
-                            </Grid>
-                        })}
-                    </Grid>
-
+                    </Routes>
                 </Container>
-
+                <ErrorSnackbar/>
             </div>
-            <ErrorSnackbar/>
-        </div>
+        </BrowserRouter>
     );
 }
 
