@@ -1,3 +1,8 @@
+import {ThunkDispatch} from "redux-thunk";
+import {StoreType} from "./store";
+import {AnyAction} from "redux";
+import {authAPI} from "../api/API";
+import {setUserData} from "./authReducer";
 
 const initialState = {
     status: 'loading' as RequestStatusType,
@@ -17,6 +22,17 @@ export const appReducer = (state : InitialStateType= initialState, action: Actio
 //actions
 export const setAppStatus = (status: RequestStatusType) => ({type: 'SET-APP-STATUS', status} as const)
 export const setAppError = (error: string | null) => ({type: 'SET-APP-ERROR', error} as const)
+
+
+//thunk
+export const initApp = () => (dispatch: ThunkDispatch<StoreType, void, AnyAction>) => {
+    authAPI.authMe()
+        .then(response => {
+            if (response.resultCode === 0) {
+                dispatch(setUserData(response.data))
+            }
+        })
+}
 
 //type
 type InitialStateType = typeof initialState

@@ -8,8 +8,15 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from "formik";
+import {useDispatch} from "react-redux";
+import {ThunkDispatch} from "redux-thunk";
+import {StoreType} from "../state/store";
+import {AnyAction} from "redux";
+import {loginThunk} from "../state/authReducer";
 
 export const Login = () => {
+
+    const dispatch = useDispatch<ThunkDispatch<StoreType, void, AnyAction>>()
 
     const formik = useFormik({
         initialValues: {
@@ -18,7 +25,7 @@ export const Login = () => {
             rememberMe: false,
         },
         onSubmit: data => {
-            console.log(data)
+            dispatch(loginThunk(data))
         },
         validate: data => {
 

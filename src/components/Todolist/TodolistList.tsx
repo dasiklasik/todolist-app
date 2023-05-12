@@ -8,8 +8,11 @@ import {StoreType} from "../../state/store";
 import {ThunkDispatch} from "redux-thunk";
 import {AnyAction} from "redux";
 import {RequestStatusType} from "../../state/appReducer";
+import {Login} from "../Login";
 
 export const TodolistList = () => {
+
+    const isAuth = useSelector<StoreType, boolean>(state => state.auth.isAuth)
 
     const todolists = useSelector<StoreType, Array<TodolistAppType>>(state => state.todolist)
     const dispatch = useDispatch<ThunkDispatch<StoreType, void, AnyAction>>()
@@ -17,12 +20,16 @@ export const TodolistList = () => {
 
 
     useEffect(() => {
-        dispatch(fetchTodolistThunk())
+        if (isAuth) {
+            dispatch(fetchTodolistThunk())
+        }
     }, [])
 
     const addTodolistWrapper = useCallback((title: string) => {
         dispatch(addTodolistThunk(title))
     }, [dispatch, addTodolist])
+
+    if (!isAuth) return <Login/>
 
     return (
         <div className='wrapper'>

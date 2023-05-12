@@ -6,15 +6,18 @@ const instance = axios.create({
     headers: {'API-KEY': 'ef755321-4a0d-4233-91f3-788e73abd00e'},
 })
 
-const authAPI = {
+export const authAPI = {
     authMe: () => {
-        return instance.get<ResponseType<{id: number, email: string, login: string}>>('auth/me')
+        return instance.get<ResponseType<UserDataType>>('auth/me')
+            .then(response => response.data)
     },
     login: (loginData: LoginDataType) => {
-        return instance.post<ResponseType<{userId: number}>>('auth/login', loginData)
+        return instance.post<ResponseType<{userId?: number}>>('auth/login', loginData)
+            .then(response => response.data)
     },
     logout: () => {
         return instance.delete<ResponseType>('auth/login')
+            .then(response => response.data)
     },
 }
 
@@ -52,10 +55,17 @@ export const tasksApi = {
     }
 }
 
-type LoginDataType = {
+export type LoginDataType = {
     email: string
     password: string
-    rememberMe: boolean
+    rememberMe?: boolean
+    captcha?: string
+}
+
+export type UserDataType = {
+    id: number
+    email: string
+    login: string
 }
 
 export type TodolistType = {
