@@ -7,6 +7,7 @@ import {setUserData} from "./authReducer";
 const initialState = {
     status: 'loading' as RequestStatusType,
     error: null as null | string,
+    isInitialized: false,
 }
 
 export const appReducer = (state : InitialStateType= initialState, action: ActionType): InitialStateType => {
@@ -15,6 +16,8 @@ export const appReducer = (state : InitialStateType= initialState, action: Actio
             return {...state, status: action.status}
         case 'SET-APP-ERROR':
             return {...state, error: action.error}
+        case 'SET-IS-INITIALIZED':
+            return {...state, isInitialized: action.isInitialized}
         default: return state
     }
 }
@@ -22,6 +25,7 @@ export const appReducer = (state : InitialStateType= initialState, action: Actio
 //actions
 export const setAppStatus = (status: RequestStatusType) => ({type: 'SET-APP-STATUS', status} as const)
 export const setAppError = (error: string | null) => ({type: 'SET-APP-ERROR', error} as const)
+export const setIsInitialized = (isInitialized: boolean) => ({type: 'SET-IS-INITIALIZED', isInitialized} as const)
 
 
 //thunk
@@ -31,14 +35,16 @@ export const initApp = () => (dispatch: ThunkDispatch<StoreType, void, AnyAction
             if (response.resultCode === 0) {
                 dispatch(setUserData(response.data))
             }
+            dispatch(setIsInitialized(true))
         })
 }
 
 //type
 type InitialStateType = typeof initialState
-type ActionType = SetAppStatusType | SetAppErrorType
+type ActionType = SetAppStatusType | SetAppErrorType | SetIsInitializedType
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
 export type SetAppStatusType = ReturnType<typeof setAppStatus>
 export type SetAppErrorType = ReturnType<typeof setAppError>
+export type SetIsInitializedType = ReturnType<typeof setIsInitialized>

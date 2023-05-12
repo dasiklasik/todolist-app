@@ -8,7 +8,7 @@ import {StoreType} from "../../state/store";
 import {ThunkDispatch} from "redux-thunk";
 import {AnyAction} from "redux";
 import {RequestStatusType} from "../../state/appReducer";
-import {Login} from "../Login";
+import { Navigate } from "react-router-dom";
 
 export const TodolistList = () => {
 
@@ -29,11 +29,10 @@ export const TodolistList = () => {
         dispatch(addTodolistThunk(title))
     }, [dispatch, addTodolist])
 
-    if (!isAuth) return <Login/>
+    if (!isAuth) return <Navigate to='/login'/>
 
     return (
         <div className='wrapper'>
-            {status === 'loading' && <LinearProgress/>}
             <Container fixed>
                 <Grid container>
                     <AddItemBlock callback={addTodolistWrapper}/>

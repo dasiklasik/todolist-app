@@ -1,4 +1,4 @@
-import React, {FormEvent} from 'react'
+import React from 'react'
 import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
@@ -8,15 +8,17 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from "formik";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {ThunkDispatch} from "redux-thunk";
 import {StoreType} from "../state/store";
 import {AnyAction} from "redux";
 import {loginThunk} from "../state/authReducer";
+import { Navigate } from 'react-router-dom';
 
 export const Login = () => {
 
     const dispatch = useDispatch<ThunkDispatch<StoreType, void, AnyAction>>()
+    const isAuth = useSelector<StoreType, boolean>(state => state.auth.isAuth)
 
     const formik = useFormik({
         initialValues: {
@@ -32,7 +34,7 @@ export const Login = () => {
         }
     })
 
-
+    if (isAuth) return <Navigate to='/'/>
 
     return <Grid container justifyContent={'center'}>
         <Grid item justifyContent={'center'}>
