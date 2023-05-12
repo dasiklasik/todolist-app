@@ -41,6 +41,20 @@ export const loginThunk = (loginData: LoginDataType) => (dispatch: ThunkDispatch
         .catch(error => handleServerNetworkError(error, dispatch))
 }
 
+export const logoutThunk = () => (dispatch: ThunkDispatch<StoreType, void, AnyAction>) => {
+    dispatch(setAppStatus('loading'))
+    authAPI.logout()
+        .then(response => {
+            if (response.resultCode === 0) {
+                dispatch(setAuth(false))
+                dispatch(setAppStatus('succeeded'))
+            } else {
+                handleServerAppError(response, dispatch)
+            }
+        })
+        .catch(error => handleServerNetworkError(error, dispatch))
+}
+
 
 type InitialStateType = typeof initialState
 
