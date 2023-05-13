@@ -15,7 +15,7 @@ import {
 } from "../../state/taskReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {StoreType} from "../../state/store";
-import {TaskType, UpdateTaskType} from "../../api/API";
+import {UpdateTaskType} from "../../api/API";
 import {ThunkDispatch} from "redux-thunk";
 import {AnyAction} from "redux";
 

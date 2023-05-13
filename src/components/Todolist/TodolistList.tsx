@@ -1,13 +1,12 @@
-import {Container, Grid, LinearProgress, Paper} from "@mui/material";
+import {Container, Grid, Paper} from "@mui/material";
 import {AddItemBlock} from "../AddItemBlock/AddItemBlock";
 import {Todolist} from "./Todolist";
 import React, {useCallback, useEffect} from "react";
-import {addTodolist, addTodolistThunk, fetchTodolistThunk, TodolistAppType} from "../../state/todolistReducer";
+import {addTodolistThunk, fetchTodolistThunk, TodolistAppType} from "../../state/todolistReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {StoreType} from "../../state/store";
 import {ThunkDispatch} from "redux-thunk";
 import {AnyAction} from "redux";
-import {RequestStatusType} from "../../state/appReducer";
 import { Navigate } from "react-router-dom";
 
 export const TodolistList = () => {
@@ -16,7 +15,6 @@ export const TodolistList = () => {
 
     const todolists = useSelector<StoreType, Array<TodolistAppType>>(state => state.todolist)
     const dispatch = useDispatch<ThunkDispatch<StoreType, void, AnyAction>>()
-    const status = useSelector<StoreType, RequestStatusType>(state => state.app.status)
 
 
     useEffect(() => {
@@ -27,7 +25,7 @@ export const TodolistList = () => {
 
     const addTodolistWrapper = useCallback((title: string) => {
         dispatch(addTodolistThunk(title))
-    }, [dispatch, addTodolist])
+    }, [dispatch, addTodolistThunk])
 
     if (!isAuth) return <Navigate to='/login'/>
 

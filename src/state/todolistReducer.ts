@@ -1,9 +1,9 @@
 import {v1} from "uuid";
-import {tasksApi, todolistAPI, TodolistType} from "../api/API";
+import {todolistAPI, TodolistType} from "../api/API";
 import {AnyAction, Dispatch} from "redux";
 import {ThunkDispatch} from "redux-thunk";
 import {StoreType} from "./store";
-import {RequestStatusType, setAppError, setAppStatus} from "./appReducer";
+import {RequestStatusType, setAppStatus} from "./appReducer";
 import {handleServerAppError, handleServerNetworkError} from "../utils/erorr-utils";
 
 export type FilterValuesType = 'all' | 'active' | 'completed'
