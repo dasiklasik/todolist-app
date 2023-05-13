@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from "react";
+import React, {useCallback} from "react";
 import {Task} from "./Task/Task";
 import {AddItemBlock} from "../AddItemBlock/AddItemBlock";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
@@ -10,8 +10,7 @@ import {
     TodolistAppType, updateTodolistThunk
 } from "../../state/todolistReducer";
 import {
-    addTaskThunk, AppTaskType,
-    fetchTasksThunk, removeTaskThunk, updateTaskThunk
+    addTaskThunk, AppTaskType, removeTaskThunk, updateTaskThunk
 } from "../../state/taskReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {StoreType} from "../../state/store";
