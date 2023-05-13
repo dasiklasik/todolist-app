@@ -31,10 +31,6 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
 
     const dispatch = useDispatch<ThunkDispatch<StoreType, void, AnyAction>>()
 
-    useEffect(() => {
-        dispatch(fetchTasksThunk(todolistData.id))
-    }, [dispatch, todolistData.id])
-
     const tasks = useSelector<StoreType, {[key: string] : Array<AppTaskType>}>(state => state.tasks)
 
     let taskForTodolist = tasks[todolistData.id]

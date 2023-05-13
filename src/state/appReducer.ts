@@ -3,6 +3,7 @@ import {StoreType} from "./store";
 import {AnyAction} from "redux";
 import {authAPI} from "../api/API";
 import {setUserData} from "./authReducer";
+import {handleServerNetworkError} from "../utils/erorr-utils";
 
 const initialState = {
     status: 'loading' as RequestStatusType,
@@ -36,7 +37,9 @@ export const initApp = () => (dispatch: ThunkDispatch<StoreType, void, AnyAction
                 dispatch(setUserData(response.data))
             }
             dispatch(setIsInitialized(true))
+            dispatch(setAppStatus('succeeded'))
         })
+        .catch(error => handleServerNetworkError(error, dispatch))
 }
 
 //type

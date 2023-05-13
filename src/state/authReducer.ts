@@ -4,6 +4,7 @@ import {setAppStatus} from "./appReducer";
 import {handleServerAppError, handleServerNetworkError} from "../utils/erorr-utils";
 import {ThunkDispatch} from "redux-thunk";
 import {StoreType} from "./store";
+import {clearData} from "./todolistReducer";
 
 const initialState = {
     isAuth: false,
@@ -47,6 +48,7 @@ export const logoutThunk = () => (dispatch: ThunkDispatch<StoreType, void, AnyAc
         .then(response => {
             if (response.resultCode === 0) {
                 dispatch(setAuth(false))
+                dispatch(clearData())
                 dispatch(setAppStatus('succeeded'))
             } else {
                 handleServerAppError(response, dispatch)
