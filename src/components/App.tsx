@@ -19,7 +19,7 @@ function App() {
 
     useEffect(() => {
         dispatch(initApp())
-    }, [])
+    }, [dispatch])
 
     const isInitialized = useSelector<StoreType, boolean>(state => state.app.isInitialized)
 

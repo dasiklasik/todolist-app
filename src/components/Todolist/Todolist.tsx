@@ -33,7 +33,7 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
 
     useEffect(() => {
         dispatch(fetchTasksThunk(todolistData.id))
-    }, [todolistData.id])
+    }, [dispatch, todolistData.id])
 
     const tasks = useSelector<StoreType, {[key: string] : Array<AppTaskType>}>(state => state.tasks)
 
@@ -45,31 +45,31 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
         taskForTodolist = taskForTodolist.filter(task => task.status)
     }
 
-    const changeFilterAll = useCallback(() => dispatch(changeTodolistFilter(todolistData.id, 'all')), [todolistData.id, dispatch, changeTodolistFilter])
-    const changeFilterActive = useCallback(() => dispatch(changeTodolistFilter(todolistData.id, 'active')), [todolistData.id, dispatch, changeTodolistFilter])
-    const changeFilterCompleted = useCallback(() => dispatch(changeTodolistFilter(todolistData.id, 'completed')), [todolistData.id, dispatch, changeTodolistFilter])
+    const changeFilterAll = useCallback(() => dispatch(changeTodolistFilter(todolistData.id, 'all')), [todolistData.id, dispatch])
+    const changeFilterActive = useCallback(() => dispatch(changeTodolistFilter(todolistData.id, 'active')), [todolistData.id, dispatch])
+    const changeFilterCompleted = useCallback(() => dispatch(changeTodolistFilter(todolistData.id, 'completed')), [todolistData.id, dispatch])
 
     const addTask = useCallback((title: string) => {
         dispatch(addTaskThunk(todolistData.id, title))
-    }, [dispatch, addTaskThunk, todolistData.id])
+    }, [dispatch, todolistData.id])
 
     const removeTask = useCallback((taskId: string) => {
         dispatch(removeTaskThunk(todolistData.id, taskId))
-    }, [dispatch, removeTaskThunk, todolistData.id])
+    }, [dispatch, todolistData.id])
 
 
     const removeTodolistWrapper = useCallback(() => {
         dispatch(removeTodolistThunk(todolistData.id))
-    }, [dispatch, removeTodolistThunk, todolistData.id])
+    }, [dispatch, todolistData.id])
 
 
     const changeTodolistTitle = useCallback((title: string) => {
         dispatch(updateTodolistThunk(todolistData.id, title))
-    }, [dispatch, updateTodolistThunk, todolistData.id])
+    }, [dispatch, todolistData.id])
 
     const updateTask = useCallback((taskId: string, taskData: UpdateTaskType) => {
         dispatch(updateTaskThunk(todolistData.id, taskId, taskData))
-    }, [])
+    }, [dispatch, todolistData.id])
 
     return (
         <div className='todolist'>

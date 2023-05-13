@@ -21,11 +21,11 @@ export const TodolistList = () => {
         if (isAuth) {
             dispatch(fetchTodolistThunk())
         }
-    }, [])
+    }, [dispatch, isAuth])
 
     const addTodolistWrapper = useCallback((title: string) => {
         dispatch(addTodolistThunk(title))
-    }, [dispatch, addTodolistThunk])
+    }, [dispatch])
 
     if (!isAuth) return <Navigate to='/login'/>
 

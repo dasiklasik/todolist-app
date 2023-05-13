@@ -45,7 +45,7 @@ export const Task = React.memo((props: TaskPropsType) => {
             deadline: tasksData.deadline,
         }
         updateTask(tasksData.id, updatedTask)
-    }, [updateTask, tasksData.id])
+    }, [updateTask, tasksData])
 
     const taskClassName = tasksData.status ? 'is-done' : ''
 
