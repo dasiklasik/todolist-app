@@ -1,72 +1,114 @@
-import {taskReducer} from "./taskReducer";
-import {addTodolist, removeTodolist, todolistId1} from "./todolistReducer";
-import {v1} from "uuid";
-import { TaskType } from "../api/API";
 
-let initialState: {[key: string] : Array<TaskType>}
+import {AppTaskType, taskReducer} from "./taskReducer";
 
-// beforeEach(() => {
-//     initialState = {
-//         [todolistId1]: [
-//             {id: v1(), title: 'HTML', : false},
-//             {id: v1(), title: 'CSS', isDone: false},
-//             {id: v1(), title: 'React', isDone: false},
-//         ],
-//         [todolistId2]: [
-//             {id: v1(), title: 'Milk', isDone: false},
-//             {id: v1(), title: 'Cheese', isDone: false},
-//             {id: v1(), title: 'Corn', isDone: false},
-//         ],
-//     }
-//
-// })
+let initialState: {[key: string] : Array<AppTaskType>}
+
+beforeEach(() => {
+    initialState = {
+        'todo1': [
+            {
+                description: 'string',
+                title: 'task1',
+                status: 0,
+                priority: 2,
+                startDate: 'string',
+                deadline: 'string',
+                id: 'task1',
+                todoListId: 'string',
+                order: 1,
+                addedDate: 'string',
+                entityStatus: 'idle'
+            },
+            {
+                description: 'string',
+                title: 'task2',
+                status: 0,
+                priority: 2,
+                startDate: 'string',
+                deadline: 'string',
+                id: 'task2',
+                todoListId: 'string',
+                order: 1,
+                addedDate: 'string',
+                entityStatus: 'idle'
+            },
+        ],
+        'todo2': [
+            {
+                description: 'string',
+                title: 'task3',
+                status: 0,
+                priority: 2,
+                startDate: 'string',
+                deadline: 'string',
+                id: 'task3',
+                todoListId: 'string',
+                order: 1,
+                addedDate: 'string',
+                entityStatus: 'idle'
+            },
+            {
+                description: 'string',
+                title: 'task4',
+                status: 0,
+                priority: 2,
+                startDate: 'string',
+                deadline: 'string',
+                id: 'task4',
+                todoListId: 'string',
+                order: 1,
+                addedDate: 'string',
+                entityStatus: 'idle'
+            },
+        ]
+    }
+})
 
 test('task reducer should remove task', () => {
-    // const action = removeTask(todolistId1 ,initialState[todolistId1][0].id)
-    // const endState = taskReducer(initialState, action)
-    //
-    // expect(endState[todolistId1].length).toBe(2)
-    // expect(endState[todolistId1][0].title).toBe('CSS')
+    const action = {type: 'REMOVE-TASK', todolistId: 'todo1', taskId: 'task1'} as const
+    const endState = taskReducer(initialState, action)
+
+    expect(endState.todo1.length).toBe(1)
+    expect(endState['todo1'][0].title).toBe('task2')
 })
 
 test('task reducer should remove task array during removing todolist', () => {
-    // const action = removeTodolist(todolistId1)
-    // const endState = taskReducer(initialState, action)
-    //
-    // expect(endState[todolistId1]).toBe(undefined)
+    const action = {type: 'REMOVE-TODOLIST', todolistId: 'todo1'} as const
+    const endState = taskReducer(initialState, action)
+
+    expect(endState.todo1).toBe(undefined)
 })
 
 test('task reducer should add task', () => {
-    // const action = addTask(todolistId1, 'new task')
-    // const endState = taskReducer(initialState, action)
+    const task = {
+            description: 'string',
+            title: 'new task',
+            status: 0,
+            priority: 2,
+            startDate: 'string',
+            deadline: 'string',
+            id: 'task5',
+            todoListId: 'string',
+            order: 1,
+            addedDate: 'string',
+        }
+    const action = {type: 'ADD-TASK', todolistId: 'todo2', taskData: task} as const
+    const endState = taskReducer(initialState, action)
 
-    // expect(endState[todolistId1].length).toBe(4)
-    // expect(endState[todolistId1][0].title).toBe('new task')
-    // expect(endState[todolistId1][0].isDone).toBe(false)
-})
-
-test('task reducer should change task status', () => {
-    // const action = changeTaskStatus(todolistId1, initialState[todolistId1][0].id, true)
-    // const endState = taskReducer(initialState, action)
-    //
-    // expect(endState[todolistId1].length).toBe(3)
-    // // expect(endState[todolistId1][0].isDone).toBe(true)
-})
-
-test('task reducer should change task title', () => {
-    // const action = changeTaskTitle(todolistId1, initialState[todolistId1][0].id, 'new task title')
-    // const endState = taskReducer(initialState, action)
-    //
-    // expect(endState[todolistId1].length).toBe(3)
-    // expect(endState[todolistId1][0].title).toBe('new task title')
+    expect(endState.todo2.length).toBe(3)
+    expect(endState.todo2[0].title).toBe('new task')
 })
 
 test('task reducer should create tasks array during adding todolist', () => {
-    // const id = v1()
-    // const action = addTodolist(id, 'new todolist title')
-    // const endState = taskReducer(initialState, action)
-    //
-    // expect(typeof endState[id]).toBe('object')
-    // expect(Array.isArray(endState[id])).toBe(true)
-    // expect(endState[id].length).toBe(0)
+    const todolist = {
+        id: 'todo3',
+        addedDate: 'string',
+        order: 2,
+        title: 'todo'
+    }
+    const action = {type: 'ADD-TODOLIST', todolistData: todolist} as const
+    const endState = taskReducer(initialState, action)
+
+    expect(Array.isArray(endState.todo3)).toBe(true)
+    expect(endState.todo3.length).toBe(0)
 })
