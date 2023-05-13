@@ -1,5 +1,5 @@
 import {AppBar, Button, LinearProgress, Toolbar} from "@mui/material";
-import React from "react";
+import React, {useCallback} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Navigate} from "react-router-dom";
 import {ThunkDispatch} from "redux-thunk";
@@ -14,13 +14,13 @@ export const Header = () => {
     const isAuth = useSelector<StoreType, boolean>(state => state.auth.isAuth)
     const dispatch = useDispatch<ThunkDispatch<StoreType, void, AnyAction>>()
 
-    const logoutUser = () => {
+    const logoutUser = useCallback(() => {
         dispatch(logoutThunk())
-    }
+    }, [dispatch])
 
-    const loginUser = () => {
+    const loginUser = useCallback(() => {
         return <Navigate to={'/login'}/>
-    }
+    }, [])
 
 
 
