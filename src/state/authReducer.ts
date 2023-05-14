@@ -1,10 +1,11 @@
 import {AnyAction} from "redux";
-import {authAPI, LoginDataType, UserDataType} from "../api/API";
+import {authAPI, LoginDataType} from "../api/API";
 import {setAppStatus} from "./appReducer";
 import {handleServerAppError, handleServerNetworkError} from "../utils/erorr-utils";
 import {ThunkDispatch} from "redux-thunk";
 import {StoreType} from "./store";
 import {clearData} from "./todolistReducer";
+import {createSlice} from "@reduxjs/toolkit";
 
 const initialState = {
     isAuth: false,
@@ -13,19 +14,22 @@ const initialState = {
     email: null as null | string,
 }
 
-export const authReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
-    switch (action.type) {
-        case 'SET-AUTH':
-            return {...state, isAuth: action.isAuth}
-        case 'SET-USER-DATA':
-            return {...state, ...action.userData, isAuth: true}
-        default: return state
+const slice = createSlice({
+    name: 'auth',
+    initialState,
+    reducers: {
+        setAuth: (state, action) => {
+            state.isAuth = action.payload.isAuth
+        },
+        setUserData: (state, action) => {
+            state = {...state, ...action.payload.userData, isAuth: true}
+        }
     }
-}
+})
 
-//actions
-const setAuth = (isAuth: boolean) => ({type: 'SET-AUTH', isAuth} as const)
-export const setUserData = (userData: UserDataType) => ({type: 'SET-USER-DATA', userData} as const)
+export const authReducer = slice.reducer;
+
+export const {setUserData, setAuth} = slice.actions
 
 //thunks
 export const loginThunk = (loginData: LoginDataType) => (dispatch: ThunkDispatch<StoreType, void, AnyAction>) => {
@@ -56,12 +60,4 @@ export const logoutThunk = () => (dispatch: ThunkDispatch<StoreType, void, AnyAc
         })
         .catch(error => handleServerNetworkError(error, dispatch))
 }
-
-
-type InitialStateType = typeof initialState
-
-type SetAuthType = ReturnType<typeof setAuth>
-type SetUserDataType = ReturnType<typeof setUserData>
-
-type ActionType = SetAuthType | SetUserDataType
 
