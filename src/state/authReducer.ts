@@ -37,7 +37,7 @@ export const loginThunk = (loginData: LoginDataType) => (dispatch: ThunkDispatch
     authAPI.login(loginData)
         .then(response => {
             if (response.resultCode === 0) {
-                dispatch(setAuth(true))
+                dispatch(setAuth({isAuth: true}))
                 dispatch(setAppStatus('succeeded'))
             } else {
                 handleServerAppError(response, dispatch)
@@ -51,7 +51,7 @@ export const logoutThunk = () => (dispatch: ThunkDispatch<StoreType, void, AnyAc
     authAPI.logout()
         .then(response => {
             if (response.resultCode === 0) {
-                dispatch(setAuth(false))
+                dispatch(setAuth({isAuth: false}))
                 dispatch(clearData())
                 dispatch(setAppStatus('succeeded'))
             } else {
