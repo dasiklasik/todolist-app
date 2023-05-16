@@ -46,10 +46,10 @@ export const clearData = () => ({type: 'CLEAR-DATA'} as const)
 
 //thunks
 export const fetchTodolistThunk = () => (dispatch: ThunkDispatch<StoreType, void, AnyAction>) => {
-    dispatch(setAppStatus('loading'))
+    dispatch(setAppStatus({status: 'loading'}))
     todolistAPI.fetchTodolists()
         .then(response => {
-            dispatch(setAppStatus('succeeded'))
+            dispatch(setAppStatus({status: 'succeeded'}))
             dispatch(setTodolists(response))
             return response
         })
