@@ -18,14 +18,14 @@ const slice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        setAuth: (state, action: PayloadAction<{ isAuth: boolean }>) => {
-            state.isAuth = action.payload.isAuth
+        setAuth: (state, action: PayloadAction<boolean>) => {
+            state.isAuth = action.payload
         },
-        setUserData: (state, action: PayloadAction<{ userData: UserDataType }>) => {
+        setUserData: (state, action: PayloadAction<UserDataType>) => {
             state.isAuth = true
-            state.id = action.payload.userData.id
-            state.login = action.payload.userData.login
-            state.email = action.payload.userData.email
+            state.id = action.payload.id
+            state.login = action.payload.login
+            state.email = action.payload.email
         }
     }
 })
@@ -36,12 +36,12 @@ export const {setUserData, setAuth} = slice.actions
 
 //thunks
 export const loginThunk = (loginData: LoginDataType) => (dispatch: ThunkDispatch<StoreType, void, AnyAction>) => {
-    dispatch(setAppStatus({status: 'loading'}))
+    dispatch(setAppStatus('loading'))
     authAPI.login(loginData)
         .then(response => {
             if (response.resultCode === 0) {
-                dispatch(setAuth({isAuth: true}))
-                dispatch(setAppStatus({status: 'succeeded'}))
+                dispatch(setAuth(true))
+                dispatch(setAppStatus('succeeded'))
             } else {
                 handleServerAppError(response, dispatch)
             }
@@ -50,13 +50,13 @@ export const loginThunk = (loginData: LoginDataType) => (dispatch: ThunkDispatch
 }
 
 export const logoutThunk = () => (dispatch: ThunkDispatch<StoreType, void, AnyAction>) => {
-    dispatch(setAppStatus({status: 'loading'}))
+    dispatch(setAppStatus('loading'))
     authAPI.logout()
         .then(response => {
             if (response.resultCode === 0) {
-                dispatch(setAuth({isAuth: false}))
+                dispatch(setAuth(false))
                 dispatch(clearData())
-                dispatch(setAppStatus({status: 'succeeded'}))
+                dispatch(setAppStatus('succeeded'))
             } else {
                 handleServerAppError(response, dispatch)
             }

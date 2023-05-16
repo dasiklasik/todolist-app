@@ -16,14 +16,14 @@ const slice = createSlice({
     name: 'app',
     initialState,
     reducers: {
-        setAppStatus: (state, action: PayloadAction<{status: RequestStatusType}>) => {
-            state.status = action.payload.status
+        setAppStatus: (state, action: PayloadAction<RequestStatusType>) => {
+            state.status = action.payload
         },
-        setAppError: (state, action: PayloadAction<{error: string | null}>) => {
-            state.error = action.payload.error
+        setAppError: (state, action: PayloadAction<string | null>) => {
+            state.error = action.payload
         },
-        setIsInitialized: (state, action: PayloadAction<{isInitialized: boolean}>) => {
-            state.isInitialized = action.payload.isInitialized
+        setIsInitialized: (state, action: PayloadAction<boolean>) => {
+            state.isInitialized = action.payload
         }
     }
 })
@@ -38,10 +38,10 @@ export const initApp = () => (dispatch: ThunkDispatch<StoreType, void, AnyAction
     authAPI.authMe()
         .then(response => {
             if (response.resultCode === 0) {
-                dispatch(setUserData({userData: response.data}))
+                dispatch(setUserData({...response.data}))
             }
-            dispatch(setIsInitialized({isInitialized: true}))
-            dispatch(setAppStatus({status: 'succeeded'}))
+            dispatch(setIsInitialized(true))
+            dispatch(setAppStatus('succeeded'))
         })
         .catch(error => handleServerNetworkError(error, dispatch))
 }

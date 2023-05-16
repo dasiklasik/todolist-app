@@ -1,4 +1,3 @@
-import {v1} from "uuid";
 import {todolistAPI, TodolistType} from "../api/API";
 import {AnyAction} from "redux";
 import {ThunkDispatch} from "redux-thunk";
@@ -8,10 +7,6 @@ import {handleServerAppError, handleServerNetworkError} from "../utils/erorr-uti
 import { fetchTasksThunk } from "./taskReducer";
 
 export type FilterValuesType = 'all' | 'active' | 'completed'
-
-
-export const todolistId1 = v1()
-export const todolistId2 = v1()
 
 let initialState: Array<TodolistAppType> = []
 
@@ -46,10 +41,10 @@ export const clearData = () => ({type: 'CLEAR-DATA'} as const)
 
 //thunks
 export const fetchTodolistThunk = () => (dispatch: ThunkDispatch<StoreType, void, AnyAction>) => {
-    dispatch(setAppStatus({status: 'loading'}))
+    dispatch(setAppStatus('loading'))
     todolistAPI.fetchTodolists()
         .then(response => {
-            dispatch(setAppStatus({status: 'succeeded'}))
+            dispatch(setAppStatus('succeeded'))
             dispatch(setTodolists(response))
             return response
         })
