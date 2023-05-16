@@ -4,9 +4,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import {Checkbox, IconButton} from "@mui/material";
 import {UpdateTaskType} from "../../../api/API";
 import { AppTaskType } from "../../../state/taskReducer";
-import {useSelector} from "react-redux";
-import {StoreType} from "../../../state/store";
-import {RequestStatusType} from "../../../state/appReducer";
 
 type TaskPropsType = {
     tasksData: AppTaskType
