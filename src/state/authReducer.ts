@@ -22,10 +22,7 @@ const slice = createSlice({
             state.isAuth = action.payload
         },
         setUserData: (state, action: PayloadAction<UserDataType>) => {
-            state.isAuth = true
-            state.id = action.payload.id
-            state.login = action.payload.login
-            state.email = action.payload.email
+            return {...action.payload, isAuth: true}
         }
     }
 })
