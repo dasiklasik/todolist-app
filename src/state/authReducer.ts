@@ -18,11 +18,14 @@ const slice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        setAuth: (state, action: PayloadAction<{isAuth: boolean}>) => {
+        setAuth: (state, action: PayloadAction<{ isAuth: boolean }>) => {
             state.isAuth = action.payload.isAuth
         },
-        setUserData: (state, action: PayloadAction<{userData: UserDataType}>) => {
-            state = {...state, ...action.payload.userData, isAuth: true}
+        setUserData: (state, action: PayloadAction<{ userData: UserDataType }>) => {
+            state.isAuth = true
+            state.id = action.payload.userData.id
+            state.login = action.payload.userData.login
+            state.email = action.payload.userData.email
         }
     }
 })
@@ -33,12 +36,12 @@ export const {setUserData, setAuth} = slice.actions
 
 //thunks
 export const loginThunk = (loginData: LoginDataType) => (dispatch: ThunkDispatch<StoreType, void, AnyAction>) => {
-    dispatch(setAppStatus('loading'))
+    dispatch(setAppStatus({status: 'loading'}))
     authAPI.login(loginData)
         .then(response => {
             if (response.resultCode === 0) {
                 dispatch(setAuth({isAuth: true}))
-                dispatch(setAppStatus('succeeded'))
+                dispatch(setAppStatus({status: 'succeeded'}))
             } else {
                 handleServerAppError(response, dispatch)
             }
@@ -47,13 +50,13 @@ export const loginThunk = (loginData: LoginDataType) => (dispatch: ThunkDispatch
 }
 
 export const logoutThunk = () => (dispatch: ThunkDispatch<StoreType, void, AnyAction>) => {
-    dispatch(setAppStatus('loading'))
+    dispatch(setAppStatus({status: 'loading'}))
     authAPI.logout()
         .then(response => {
             if (response.resultCode === 0) {
                 dispatch(setAuth({isAuth: false}))
                 dispatch(clearData())
-                dispatch(setAppStatus('succeeded'))
+                dispatch(setAppStatus({status: 'succeeded'}))
             } else {
                 handleServerAppError(response, dispatch)
             }
