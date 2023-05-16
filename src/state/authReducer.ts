@@ -1,11 +1,11 @@
 import {AnyAction} from "redux";
-import {authAPI, LoginDataType} from "../api/API";
+import {authAPI, LoginDataType, UserDataType} from "../api/API";
 import {setAppStatus} from "./appReducer";
 import {handleServerAppError, handleServerNetworkError} from "../utils/erorr-utils";
 import {ThunkDispatch} from "redux-thunk";
 import {StoreType} from "./store";
 import {clearData} from "./todolistReducer";
-import {createSlice} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 const initialState = {
     isAuth: false,
@@ -18,10 +18,10 @@ const slice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        setAuth: (state, action) => {
+        setAuth: (state, action: PayloadAction<{isAuth: boolean}>) => {
             state.isAuth = action.payload.isAuth
         },
-        setUserData: (state, action) => {
+        setUserData: (state, action: PayloadAction<{userData: UserDataType}>) => {
             state = {...state, ...action.payload.userData, isAuth: true}
         }
     }
@@ -60,4 +60,3 @@ export const logoutThunk = () => (dispatch: ThunkDispatch<StoreType, void, AnyAc
         })
         .catch(error => handleServerNetworkError(error, dispatch))
 }
-
