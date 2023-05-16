@@ -40,9 +40,9 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
         taskForTodolist = taskForTodolist.filter(task => task.status)
     }
 
-    const changeFilterAll = useCallback(() => dispatch(changeTodolistFilter(todolistData.id, 'all')), [todolistData.id, dispatch])
-    const changeFilterActive = useCallback(() => dispatch(changeTodolistFilter(todolistData.id, 'active')), [todolistData.id, dispatch])
-    const changeFilterCompleted = useCallback(() => dispatch(changeTodolistFilter(todolistData.id, 'completed')), [todolistData.id, dispatch])
+    const changeFilterAll = useCallback(() => dispatch(changeTodolistFilter({todolistId: todolistData.id, filter: 'all'})), [todolistData.id, dispatch])
+    const changeFilterActive = useCallback(() => dispatch(changeTodolistFilter({todolistId: todolistData.id, filter: 'active'})), [todolistData.id, dispatch])
+    const changeFilterCompleted = useCallback(() => dispatch(changeTodolistFilter({todolistId: todolistData.id, filter: 'completed'})), [todolistData.id, dispatch])
 
     const addTask = useCallback((title: string) => {
         dispatch(addTaskThunk(todolistData.id, title))

@@ -73,7 +73,7 @@ test('task reducer should remove task', () => {
 })
 
 test('task reducer should remove task array during removing todolist', () => {
-    const action = {type: 'REMOVE-TODOLIST', todolistId: 'todo1'} as const
+    const action = {type: 'todolist/removeTodolist', payload: 'todo1'} as const
     const endState = taskReducer(initialState, action)
 
     expect(endState.todo1).toBe(undefined)
@@ -106,7 +106,7 @@ test('task reducer should create tasks array during adding todolist', () => {
         order: 2,
         title: 'todo'
     }
-    const action = {type: 'ADD-TODOLIST', todolistData: todolist} as const
+    const action = {type: 'todolist/addTodolist', payload: {...todolist}} as const
     const endState = taskReducer(initialState, action)
 
     expect(Array.isArray(endState.todo3)).toBe(true)
