@@ -3,7 +3,7 @@ import {EditableSpan} from "../../EditableSpan/EditableSpan";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {Checkbox, IconButton} from "@mui/material";
 import {UpdateTaskType} from "../../../api/API";
-import { AppTaskType } from "../../../state/taskReducer";
+import { AppTaskType } from "../../../state/taskReducer/taskReducer";
 
 type TaskPropsType = {
     tasksData: AppTaskType

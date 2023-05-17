@@ -1,13 +1,13 @@
 import {
     addTodolist, clearData, removeTodolist, setTodolists,
     setTodolistStatus
-} from "./todolistReducer";
+} from "../todolistReducer";
 import {AnyAction} from "redux";
-import {tasksApi, TaskType, UpdateTaskType} from "../api/API";
+import {tasksApi, TaskType, UpdateTaskType} from "../../api/API";
 import {ThunkDispatch} from "redux-thunk";
-import {StoreType} from "./store";
-import {handleServerAppError, handleServerNetworkError} from "../utils/erorr-utils";
-import {RequestStatusType} from "./appReducer";
+import {StoreType} from "../store";
+import {handleServerAppError, handleServerNetworkError} from "../../utils/erorr-utils";
+import {RequestStatusType} from "../appReducer";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 let initialState: StateType = {}
@@ -69,7 +69,7 @@ const slice = createSlice({
 export const taskReducer = slice.reducer
 
 //actions
-const {setTaskEntityStatus, setTasks, changeTask, removeTask, addTask} = slice.actions
+export const {setTaskEntityStatus, setTasks, changeTask, removeTask, addTask} = slice.actions
 
 //thunks
 export const fetchTasksThunk = (todolistId: string) => (dispatch: ThunkDispatch<StoreType, void, AnyAction>) => {

@@ -11,7 +11,7 @@ import {
 } from "../../state/todolistReducer";
 import {
     addTaskThunk, AppTaskType, removeTaskThunk, updateTaskThunk
-} from "../../state/taskReducer";
+} from "../../state/taskReducer/taskReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {StoreType} from "../../state/store";
 import {UpdateTaskType} from "../../api/API";

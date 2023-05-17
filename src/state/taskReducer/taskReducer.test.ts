@@ -1,5 +1,5 @@
-
-import {AppTaskType, taskReducer} from "./taskReducer";
+import {addTodolist, removeTodolist } from "../todolistReducer";
+import {addTask, AppTaskType, removeTask, taskReducer} from "./taskReducer";
 
 let initialState: {[key: string] : Array<AppTaskType>}
 
@@ -65,7 +65,7 @@ beforeEach(() => {
 })
 
 test('task reducer should remove task', () => {
-    const action = {type: 'REMOVE-TASK', todolistId: 'todo1', taskId: 'task1'} as const
+    const action = removeTask({todolistId: 'todo1', taskId: 'task1'})
     const endState = taskReducer(initialState, action)
 
     expect(endState.todo1.length).toBe(1)
@@ -73,7 +73,7 @@ test('task reducer should remove task', () => {
 })
 
 test('task reducer should remove task array during removing todolist', () => {
-    const action = {type: 'todolist/removeTodolist', payload: 'todo1'} as const
+    const action = removeTodolist('todo1')
     const endState = taskReducer(initialState, action)
 
     expect(endState.todo1).toBe(undefined)
@@ -92,7 +92,7 @@ test('task reducer should add task', () => {
             order: 1,
             addedDate: 'string',
         }
-    const action = {type: 'ADD-TASK', todolistId: 'todo2', taskData: task} as const
+    const action = addTask({todolistId: 'todo2', taskData: task})
     const endState = taskReducer(initialState, action)
 
     expect(endState.todo2.length).toBe(3)
@@ -106,7 +106,7 @@ test('task reducer should create tasks array during adding todolist', () => {
         order: 2,
         title: 'todo'
     }
-    const action = {type: 'todolist/addTodolist', payload: {...todolist}} as const
+    const action = addTodolist(todolist)
     const endState = taskReducer(initialState, action)
 
     expect(Array.isArray(endState.todo3)).toBe(true)

@@ -4,7 +4,7 @@ import {ThunkDispatch} from "redux-thunk";
 import {StoreType} from "./store";
 import {RequestStatusType, setAppStatus} from "./appReducer";
 import {handleServerAppError, handleServerNetworkError} from "../utils/erorr-utils";
-import { fetchTasksThunk } from "./taskReducer";
+import { fetchTasksThunk } from "./taskReducer/taskReducer";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 export type FilterValuesType = 'all' | 'active' | 'completed'
