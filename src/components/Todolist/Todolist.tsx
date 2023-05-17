@@ -14,7 +14,7 @@ import {
 } from "../../state/taskReducer/taskReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {StoreType} from "../../state/store";
-import {UpdateTaskType} from "../../api/API";
+import {TaskStatuses, UpdateTaskType} from "../../api/API";
 import {ThunkDispatch} from "redux-thunk";
 import {AnyAction} from "redux";
 
@@ -35,9 +35,9 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
     let taskForTodolist = tasks[todolistData.id]
 
     if(todolistData.filter === 'active') {
-        taskForTodolist = taskForTodolist.filter(task => !task.status)
+        taskForTodolist = taskForTodolist.filter(task => task.status === TaskStatuses.New)
     } else if (todolistData.filter === 'completed') {
-        taskForTodolist = taskForTodolist.filter(task => task.status)
+        taskForTodolist = taskForTodolist.filter(task => task.status === TaskStatuses.Completed)
     }
 
     const changeFilterAll = useCallback(() => dispatch(changeTodolistFilter({todolistId: todolistData.id, filter: 'all'})), [todolistData.id, dispatch])

@@ -2,7 +2,7 @@ import React, {ChangeEvent, useCallback} from "react";
 import {EditableSpan} from "../../EditableSpan/EditableSpan";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {Checkbox, IconButton} from "@mui/material";
-import {UpdateTaskType} from "../../../api/API";
+import {TaskStatuses, UpdateTaskType} from "../../../api/API";
 import { AppTaskType } from "../../../state/taskReducer/taskReducer";
 
 type TaskPropsType = {
@@ -23,7 +23,7 @@ export const Task = React.memo((props: TaskPropsType) => {
     }
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        const status = e.target.checked ? 1 : 0
+        const status = e.target.checked ? TaskStatuses.Completed : TaskStatuses.New
         const updatedTask = {
             title: tasksData.title,
             description: tasksData.description,
@@ -51,7 +51,7 @@ export const Task = React.memo((props: TaskPropsType) => {
 
     return (
         <li className={taskClassName}>
-            <Checkbox color='primary' disabled={tasksData.entityStatus === 'loading'} onChange={onChangeHandler} checked={!!tasksData.status}/>
+            <Checkbox color='primary' disabled={tasksData.entityStatus === 'loading'} onChange={onChangeHandler} checked={tasksData.status === 2}/>
             <EditableSpan disabled={tasksData.entityStatus === 'loading'} title={tasksData.title} callback={changeTaskTitleTaskWrapper}/>
             <IconButton color='primary' size='small' aria-label="delete" onClick={onClickHandler} disabled={tasksData.entityStatus === 'loading'}>
                 <DeleteIcon />
