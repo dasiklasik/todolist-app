@@ -1,5 +1,5 @@
 import { v1 } from "uuid";
-import { TodolistType } from "../api/API";
+import { TodolistType } from "../../api/API";
 import {
     addTodolist,
     changeTodolistFilter, changeTodolistTitle,

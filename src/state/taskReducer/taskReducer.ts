@@ -1,7 +1,7 @@
 import {
     addTodolist, clearData, removeTodolist, setTodolists,
     setTodolistStatus
-} from "../todolistReducer";
+} from "../todolistReducer/todolistReducer";
 import {AnyAction} from "redux";
 import {tasksApi, TaskType, UpdateTaskType} from "../../api/API";
 import {ThunkDispatch} from "redux-thunk";

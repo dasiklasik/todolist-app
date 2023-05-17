@@ -2,7 +2,7 @@ import {Container, Grid, Paper} from "@mui/material";
 import {AddItemBlock} from "../AddItemBlock/AddItemBlock";
 import {Todolist} from "./Todolist";
 import React, {useCallback, useEffect} from "react";
-import {addTodolistThunk, fetchTodolistThunk, TodolistAppType} from "../../state/todolistReducer";
+import {addTodolistThunk, fetchTodolistThunk, TodolistAppType} from "../../state/todolistReducer/todolistReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {StoreType} from "../../state/store";
 import {ThunkDispatch} from "redux-thunk";

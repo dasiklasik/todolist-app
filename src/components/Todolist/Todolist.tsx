@@ -8,7 +8,7 @@ import {
     changeTodolistFilter,
     removeTodolistThunk,
     TodolistAppType, updateTodolistThunk
-} from "../../state/todolistReducer";
+} from "../../state/todolistReducer/todolistReducer";
 import {
     addTaskThunk, AppTaskType, removeTaskThunk, updateTaskThunk
 } from "../../state/taskReducer/taskReducer";

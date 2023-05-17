@@ -1,4 +1,4 @@
-import {addTodolist, removeTodolist } from "../todolistReducer";
+import {addTodolist, removeTodolist } from "../todolistReducer/todolistReducer";
 import {addTask, AppTaskType, removeTask, taskReducer} from "./taskReducer";
 
 let initialState: {[key: string] : Array<AppTaskType>}

@@ -1,6 +1,6 @@
 import {combineReducers} from "redux";
 import thunk from "redux-thunk";
-import {todolistReducer} from "./todolistReducer";
+import {todolistReducer} from "./todolistReducer/todolistReducer";
 import {taskReducer} from "./taskReducer/taskReducer";
 import {appReducer} from "./appReducer";
 import {authReducer} from "./authReducer";

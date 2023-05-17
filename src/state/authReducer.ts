@@ -4,7 +4,7 @@ import {setAppStatus} from "./appReducer";
 import {handleServerAppError, handleServerNetworkError} from "../utils/erorr-utils";
 import {ThunkDispatch} from "redux-thunk";
 import {StoreType} from "./store";
-import {clearData} from "./todolistReducer";
+import {clearData} from "./todolistReducer/todolistReducer";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 const initialState = {
