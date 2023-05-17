@@ -45,7 +45,7 @@ const slice = createSlice({
                 state[index].entityStatus = action.payload.status
             }
         },
-        clearData: (state) => {
+        clearData: () => {
             return []
         }
     }
@@ -118,8 +118,3 @@ export type TodolistAppType = {
     filter: FilterValuesType
     entityStatus: RequestStatusType
 } & TodolistType
-
-export type AddTodolistType = ReturnType<typeof addTodolist>
-export type ClearDataType = ReturnType<typeof clearData>
-export type RemoveTodolistType = ReturnType<typeof removeTodolist>
-export type SetTodolistsType = ReturnType<typeof setTodolists>
