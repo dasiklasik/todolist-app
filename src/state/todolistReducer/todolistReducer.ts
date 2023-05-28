@@ -4,7 +4,7 @@ import {ThunkDispatch} from "redux-thunk";
 import {StoreType} from "../store";
 import {RequestStatusType, setAppStatus} from "../appReducer";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/erorr-utils";
-import { fetchTasksThunk } from "../taskReducer/taskReducer";
+import {addTaskThunk, fetchTasksThunk, removeTaskThunk} from "../taskReducer/taskReducer";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 export type FilterValuesType = 'all' | 'active' | 'completed'
@@ -48,6 +48,27 @@ const slice = createSlice({
         clearData: () => {
             return []
         }
+    },
+    extraReducers: builder => {
+        builder
+            .addCase(addTaskThunk.pending, (state, action) => {
+                const index = state.findIndex(tl => tl.id === action.meta.arg.todolistId)
+                if (index !== -1) {
+                    state[index].entityStatus = 'loading'
+                }
+            })
+            .addCase(addTaskThunk.fulfilled, (state, action) => {
+                const index = state.findIndex(tl => tl.id === action.meta.arg.todolistId)
+                if (index !== -1) {
+                    state[index].entityStatus = action.payload.resultCode === 0 ? 'succeeded' : 'failed'
+                }
+            })
+            .addCase(addTaskThunk.rejected, (state, action) => {
+                const index = state.findIndex(tl => tl.id === action.meta.arg.todolistId)
+                if (index !== -1) {
+                    state[index].entityStatus = 'failed'
+                }
+            })
     }
 })
 

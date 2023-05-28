@@ -45,11 +45,11 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
     const changeFilterCompleted = useCallback(() => dispatch(changeTodolistFilter({todolistId: todolistData.id, filter: 'completed'})), [todolistData.id, dispatch])
 
     const addTask = useCallback((title: string) => {
-        dispatch(addTaskThunk(todolistData.id, title))
+        dispatch(addTaskThunk({todolistId: todolistData.id, title}))
     }, [dispatch, todolistData.id])
 
     const removeTask = useCallback((taskId: string) => {
-        dispatch(removeTaskThunk(todolistData.id, taskId))
+        dispatch(removeTaskThunk({todolistId: todolistData.id, taskId}))
     }, [dispatch, todolistData.id])
 
 
@@ -63,7 +63,7 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
     }, [dispatch, todolistData.id])
 
     const updateTask = useCallback((taskId: string, taskData: UpdateTaskType) => {
-        dispatch(updateTaskThunk(todolistData.id, taskId, taskData))
+        dispatch(updateTaskThunk({todolistId: todolistData.id, taskId, taskData}))
     }, [dispatch, todolistData.id])
 
     return (

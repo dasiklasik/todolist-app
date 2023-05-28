@@ -5,6 +5,7 @@ import {authAPI} from "../api/API";
 import {setUserData} from "./authReducer";
 import {handleServerNetworkError} from "../utils/erorr-utils";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {addTaskThunk} from "./taskReducer/taskReducer";
 
 const initialState = {
     status: 'loading' as RequestStatusType,
@@ -25,6 +26,17 @@ const slice = createSlice({
         setIsInitialized: (state, action: PayloadAction<boolean>) => {
             state.isInitialized = action.payload
         }
+    },
+    extraReducers: builder => {
+        builder
+            .addCase(addTaskThunk.fulfilled, (state, action) => {
+                if (action.payload.resultCode !== 0) {
+                    state.error = action.payload.messages.length ? action.payload.messages[0] : 'Some error occurred'
+                }
+            })
+            .addCase(addTaskThunk.rejected, (state, action) => {
+                state.status = 'failed'
+            })
     }
 })
 
