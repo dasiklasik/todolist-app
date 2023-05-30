@@ -10,10 +10,11 @@ import Button from '@mui/material/Button';
 import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
 import {ThunkDispatch} from "redux-thunk";
-import {StoreType} from "../state/store";
+import {StoreType} from "../../state/store";
 import {AnyAction} from "redux";
-import {loginThunk} from "../state/authReducer";
+import {loginThunk} from "../../state/authReducer";
 import { Navigate } from 'react-router-dom';
+import style from './Login.module.css'
 
 export const Login = () => {
 
@@ -30,8 +31,20 @@ export const Login = () => {
             dispatch(loginThunk(data))
         },
         validate: data => {
+            const errors = {
+                email: '',
+                password: '',
+            }
+debugger
+            if (!data.email && formik.touched.email) {
+                errors.email = 'Email is required'
+            }
+            if (!data.password && formik.touched.password) {
+                errors.password = 'Password is required'
+            }
 
-        }
+            return errors
+         }
     })
 
     if (isAuth) return <Navigate to='/'/>
@@ -56,12 +69,14 @@ export const Login = () => {
                             margin='normal'
                             {...formik.getFieldProps('email')}
                         />
+                        {formik.errors.email && <span className={style.error}>{formik.errors.email}</span>}
                         <TextField
                             type='password'
                             label='Password'
                             margin='normal'
                             {...formik.getFieldProps('password')}
                         />
+                        {formik.errors.password && <span className={style.error}>{formik.errors.password}</span>}
                         <FormControlLabel label={'Remember me'}
                                           control={<Checkbox
                                               {...formik.getFieldProps('rememberMe')}

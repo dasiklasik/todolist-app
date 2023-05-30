@@ -6,7 +6,7 @@ import {StoreType} from '../state/store';
 import {ErrorSnackbar} from "./ErrorSnackbar/ErrorSnackbar";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import {TodolistList} from "./Todolist/TodolistList";
-import {Login} from './Login';
+import {Login} from './Login/Login';
 import {ThunkDispatch} from "redux-thunk";
 import {AnyAction} from "redux";
 import {initApp} from "../state/appReducer";
