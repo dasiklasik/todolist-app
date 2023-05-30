@@ -2,10 +2,11 @@ import {ThunkDispatch} from "redux-thunk";
 import {StoreType} from "./store";
 import {AnyAction} from "redux";
 import {authAPI} from "../api/API";
-import {setUserData} from "./authReducer";
+import {loginThunk, setUserData} from "./authReducer";
 import {handleServerNetworkError} from "../utils/erorr-utils";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {addTaskThunk} from "./taskReducer/taskReducer";
+import {AxiosError} from "axios";
 
 const initialState = {
     status: 'loading' as RequestStatusType,
@@ -36,6 +37,13 @@ const slice = createSlice({
             })
             .addCase(addTaskThunk.rejected, (state, action) => {
                 state.status = 'failed'
+                if (action.payload instanceof AxiosError) {
+                    state.error = action.payload.message
+                }
+            })
+            .addCase(loginThunk.rejected, (state, action) => {
+                state.status = 'failed'
+                state.error = action.payload && action.payload.error ? action.payload.error : 'Some error occurred'
             })
     }
 })

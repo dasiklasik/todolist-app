@@ -15,7 +15,7 @@ const reducer = combineReducers({
 
 export const store = configureStore({
     reducer: reducer,
-    middleware: getDefaultMiddleware => getDefaultMiddleware().prepend(thunk),
+    middleware: getDefaultMiddleware => getDefaultMiddleware({serializableCheck: false}).prepend(thunk),
 })
 
 export type StoreType = ReturnType<typeof reducer>

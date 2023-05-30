@@ -124,10 +124,10 @@ export const removeTodolistThunk = (todolistId: string) => (dispatch: ThunkDispa
 export const updateTodolistThunk = (todolistId: string, title: string) => (dispatch: ThunkDispatch<StoreType, void, AnyAction>) => {
     todolistAPI.updateTodolist(todolistId, title)
         .then(response => {
-            if (response.resultCode === 0) {
+            if (response.data.resultCode === 0) {
                 dispatch(changeTodolistTitle({todolistId, title}))
             } else {
-                handleServerAppError(response, dispatch)
+                handleServerAppError(response.data, dispatch)
             }
         })
         .catch(error => handleServerNetworkError(error, dispatch))

@@ -32,26 +32,23 @@ export const todolistAPI = {
         return instance.delete<ResponseType>(`todo-lists/${todolistId}`).then(response => response.data)
     },
     updateTodolist: (todolistId: string, title: string) => {
-        return instance.put<ResponseType>(`todo-lists/${todolistId}`, {title}).then(response => response.data)
+        return instance.put<ResponseType>(`todo-lists/${todolistId}`, {title})
     },
 }
 
 export const tasksApi = {
     fetchTasks: (todolistId: string) => {
-        return instance.get<FetchTasksResponseType>(`todo-lists/${todolistId}/tasks`).then(response => response.data)
+        return instance.get<FetchTasksResponseType>(`todo-lists/${todolistId}/tasks`)
     },
     addTask: (todolistId: string, title: string) => {
         return instance.post<ResponseType<{item: TaskType}>>(`todo-lists/${todolistId}/tasks`, {title})
-            .then(response => response.data)
-            .catch(error => error)
+
     },
     updateTask: (todolistId: string, taskId: string, taskData: UpdateTaskType) => {
         return instance.put<ResponseType<{item: TaskType}>>(`todo-lists/${todolistId}/tasks/${taskId}`, taskData)
-            .then(response => response.data)
-            .catch(error => error)
     },
     deleteTask: (todolistId: string, taskId: string) => {
-        return instance.delete<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`).then(response => response.data)
+        return instance.delete<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`)
     }
 }
 
@@ -103,9 +100,15 @@ export type UpdateTaskType = {
     deadline: string
 }
 
+export type FieldsErrorsType = {
+    field: string
+    error: string
+}
+
 export type ResponseType<D = {}> = {
     resultCode: number
     messages: string[],
+    fieldsErrors?: Array<FieldsErrorsType>
     data: D
 }
 
