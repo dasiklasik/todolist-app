@@ -30,16 +30,19 @@ export const Login = () => {
         onSubmit: data => {
             dispatch(loginThunk(data))
         },
-        validate: data => {
-            const errors = {
-                email: '',
-                password: '',
+        validate: values => {
+            type errorsType = {
+                email?: null | string
+                password?: string | null
             }
-debugger
-            if (!data.email && formik.touched.email) {
+
+            const errors: errorsType = {}
+
+            if (!values.email) {
                 errors.email = 'Email is required'
             }
-            if (!data.password && formik.touched.password) {
+
+            if (!values.password) {
                 errors.password = 'Password is required'
             }
 
@@ -65,18 +68,21 @@ debugger
                     </FormLabel>
                     <FormGroup>
                         <TextField
-                            label='Email'
-                            margin='normal'
+                            type={'email'}
+                            id='email'
+                            label="Email"
+                            margin="normal"
                             {...formik.getFieldProps('email')}
                         />
-                        {formik.errors.email && <span className={style.error}>{formik.errors.email}</span>}
+                        {formik.errors.email ? <div>{formik.errors.email}</div> : null}
                         <TextField
-                            type='password'
-                            label='Password'
-                            margin='normal'
+                            type="password"
+                            label="Password"
+                            id='password'
+                            margin="normal"
                             {...formik.getFieldProps('password')}
                         />
-                        {formik.errors.password && <span className={style.error}>{formik.errors.password}</span>}
+                        {formik.errors.password ? <div>{formik.errors.password}</div> : null}
                         <FormControlLabel label={'Remember me'}
                                           control={<Checkbox
                                               {...formik.getFieldProps('rememberMe')}
