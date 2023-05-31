@@ -2,7 +2,7 @@ import {ThunkDispatch} from "redux-thunk";
 import {StoreType} from "./store";
 import {AnyAction} from "redux";
 import {authAPI} from "../api/API";
-import {loginThunk, setUserData} from "./authReducer";
+import {loginThunk, logoutThunk, setUserData} from "./authReducer";
 import {handleServerNetworkError} from "../utils/erorr-utils";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {addTaskThunk} from "./taskReducer/taskReducer";
@@ -41,10 +41,27 @@ const slice = createSlice({
                     state.error = action.payload.message
                 }
             })
-            .addCase(loginThunk.rejected, (state, action) => {
-                state.status = 'failed'
-                state.error = action.payload && action.payload.error ? action.payload.error : 'Some error occurred'
+
+            .addMatcher((action) => [
+                loginThunk.pending.type,
+                logoutThunk.pending.type,
+            ].includes(action.type), (state, action) => {
+                state.status = 'loading'
             })
+            .addMatcher((action) => [
+                loginThunk.fulfilled.type,
+                logoutThunk.fulfilled.type,
+            ].includes(action.type), (state, action) => {
+                state.status = 'succeeded'
+            })
+            .addMatcher((action) => [
+                    loginThunk.rejected.type,
+                    logoutThunk.rejected.type
+                ].includes(action.type),
+                (state, action) => {
+                    state.status = 'failed'
+                    state.error = action.payload && action.payload.error ? action.payload.error : 'Some error occurred'
+                })
     }
 })
 

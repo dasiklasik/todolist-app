@@ -14,7 +14,6 @@ import {StoreType} from "../../state/store";
 import {AnyAction} from "redux";
 import {loginThunk} from "../../state/authReducer";
 import { Navigate } from 'react-router-dom';
-import style from './Login.module.css'
 
 export const Login = () => {
 
