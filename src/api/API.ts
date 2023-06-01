@@ -33,22 +33,26 @@ export const todolistAPI = {
     },
     updateTodolist: (todolistId: string, title: string) => {
         return instance.put<ResponseType>(`todo-lists/${todolistId}`, {title})
+            .then(response => response.data)
     },
 }
 
 export const tasksApi = {
     fetchTasks: (todolistId: string) => {
         return instance.get<FetchTasksResponseType>(`todo-lists/${todolistId}/tasks`)
+            .then(response => response.data)
     },
     addTask: (todolistId: string, title: string) => {
         return instance.post<ResponseType<{item: TaskType}>>(`todo-lists/${todolistId}/tasks`, {title})
-
+            .then(response => response.data)
     },
     updateTask: (todolistId: string, taskId: string, taskData: UpdateTaskType) => {
         return instance.put<ResponseType<{item: TaskType}>>(`todo-lists/${todolistId}/tasks/${taskId}`, taskData)
+            .then(response => response.data)
     },
     deleteTask: (todolistId: string, taskId: string) => {
         return instance.delete<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`)
+            .then(response => response.data)
     }
 }
 

@@ -7,13 +7,9 @@ import {handleServerAppError, handleServerNetworkError} from "../../utils/erorr-
 import {addTaskThunk, fetchTasksThunk} from "../taskReducer/taskReducer";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
-export type FilterValuesType = 'all' | 'active' | 'completed'
-
-let initialState: Array<TodolistAppType> = []
-
 const slice = createSlice({
     name: 'todolist',
-    initialState,
+    initialState: [] as Array<TodolistAppType>,
     reducers: {
         removeTodolist: (state, action: PayloadAction<string>) => {
             const index = state.findIndex(tl => tl.id === action.payload)
@@ -124,10 +120,10 @@ export const removeTodolistThunk = (todolistId: string) => (dispatch: ThunkDispa
 export const updateTodolistThunk = (todolistId: string, title: string) => (dispatch: ThunkDispatch<StoreType, void, AnyAction>) => {
     todolistAPI.updateTodolist(todolistId, title)
         .then(response => {
-            if (response.data.resultCode === 0) {
+            if (response.resultCode === 0) {
                 dispatch(changeTodolistTitle({todolistId, title}))
             } else {
-                handleServerAppError(response.data, dispatch)
+                handleServerAppError(response, dispatch)
             }
         })
         .catch(error => handleServerNetworkError(error, dispatch))
@@ -135,6 +131,8 @@ export const updateTodolistThunk = (todolistId: string, title: string) => (dispa
 
 
 //types
+export type FilterValuesType = 'all' | 'active' | 'completed'
+
 export type TodolistAppType = {
     filter: FilterValuesType
     entityStatus: RequestStatusType

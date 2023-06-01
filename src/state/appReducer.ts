@@ -1,62 +1,62 @@
-import {ThunkDispatch} from "redux-thunk";
-import {StoreType} from "./store";
-import {AnyAction} from "redux";
 import {authAPI} from "../api/API";
 import {loginThunk, logoutThunk, setUserData} from "./authReducer";
-import {handleServerNetworkError} from "../utils/erorr-utils";
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {addTaskThunk} from "./taskReducer/taskReducer";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {addTaskThunk, fetchTasksThunk, updateTaskThunk} from "./taskReducer/taskReducer";
 import {AxiosError} from "axios";
 
-const initialState = {
-    status: 'loading' as RequestStatusType,
-    error: null as null | string,
-    isInitialized: false,
-}
+//thunk
+export const initApp = createAsyncThunk('app/initApp',
+    async (param: undefined, {rejectWithValue, dispatch}) => {
+        try {
+            const response = await authAPI.authMe()
+            if (response.resultCode === 0) {
+                dispatch(setUserData({...response.data}))
+            }
+        } catch (err) {
+            const error: AxiosError = err as any
+            return rejectWithValue({error: error.message, fieldsErrors: undefined})
+        }
+    })
 
 const slice = createSlice({
     name: 'app',
-    initialState,
+    initialState: {
+        status: 'loading' as RequestStatusType,
+        error: null as null | string,
+        isInitialized: false,
+    },
     reducers: {
         setAppStatus: (state, action: PayloadAction<RequestStatusType>) => {
             state.status = action.payload
         },
         setAppError: (state, action: PayloadAction<string | null>) => {
             state.error = action.payload
-        },
-        setIsInitialized: (state, action: PayloadAction<boolean>) => {
-            state.isInitialized = action.payload
         }
     },
     extraReducers: builder => {
         builder
-            .addCase(addTaskThunk.fulfilled, (state, action) => {
-                if (action.payload.resultCode !== 0) {
-                    state.error = action.payload.messages.length ? action.payload.messages[0] : 'Some error occurred'
-                }
+            .addCase(initApp.fulfilled, (state) => {
+                state.status = 'succeeded'
+                state.isInitialized = true
             })
-            .addCase(addTaskThunk.rejected, (state, action) => {
-                state.status = 'failed'
-                if (action.payload instanceof AxiosError) {
-                    state.error = action.payload.message
-                }
-            })
-
             .addMatcher((action) => [
                 loginThunk.pending.type,
                 logoutThunk.pending.type,
-            ].includes(action.type), (state, action) => {
+            ].includes(action.type), (state) => {
                 state.status = 'loading'
             })
             .addMatcher((action) => [
                 loginThunk.fulfilled.type,
                 logoutThunk.fulfilled.type,
-            ].includes(action.type), (state, action) => {
+            ].includes(action.type), (state) => {
                 state.status = 'succeeded'
             })
             .addMatcher((action) => [
                     loginThunk.rejected.type,
-                    logoutThunk.rejected.type
+                    logoutThunk.rejected.type,
+                    addTaskThunk.rejected.type,
+                    fetchTasksThunk.rejected.type,
+                    updateTaskThunk.rejected.type,
                 ].includes(action.type),
                 (state, action) => {
                     state.status = 'failed'
@@ -68,22 +68,9 @@ const slice = createSlice({
 export const appReducer = slice.reducer
 
 //actions
-export const {setIsInitialized, setAppStatus, setAppError} = slice.actions
+export const {setAppStatus, setAppError} = slice.actions
 
-//thunk
-export const initApp = () => (dispatch: ThunkDispatch<StoreType, void, AnyAction>) => {
-    authAPI.authMe()
-        .then(response => {
-            if (response.resultCode === 0) {
-                dispatch(setUserData({...response.data}))
-            }
-            dispatch(setIsInitialized(true))
-            dispatch(setAppStatus('succeeded'))
-        })
-        .catch(error => handleServerNetworkError(error, dispatch))
-}
-
-//type
+//types
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
 export type SetAppErrorType = ReturnType<typeof setAppError>
