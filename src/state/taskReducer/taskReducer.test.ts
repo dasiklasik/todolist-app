@@ -80,28 +80,31 @@ test('task reducer should remove task array during removing todolist', () => {
     expect(endState.todo1).toBe(undefined)
 })
 
-// test('task reducer should add task', () => {
-//     const task = {
-//             description: 'string',
-//             title: 'new task',
-//             status: 0,
-//             priority: 2,
-//             startDate: 'string',
-//             deadline: 'string',
-//             id: 'task5',
-//             todoListId: 'todo2',
-//             order: 1,
-//             addedDate: 'string',
-//         }
-//         const data = {
-//             item: task
-//         }
-//     const action = addTaskThunk.fulfilled({data, resultCode: 0}, '', {todolistId: 'todo2', title: ''})
-//     const endState = taskReducer(initialState, action)
-// debugger
-//     expect(endState.todo2.length).toBe(3)
-//     expect(endState.todo2[0].title).toBe('new task')
-// })
+test('task reducer should add task', () => {
+    const task = {
+            description: 'string',
+            title: 'new task',
+            status: 0,
+            priority: 2,
+            startDate: 'string',
+            deadline: 'string',
+            id: 'task5',
+            todoListId: 'todo2',
+            order: 1,
+            addedDate: 'string',
+        }
+
+    const response = {
+        resultCode: 0,
+        messages: [],
+        data: {item: task}
+    }
+    const action = addTaskThunk.fulfilled(response, '', {todolistId: 'todo2', title: ''})
+    const endState = taskReducer(initialState, action)
+debugger
+    expect(endState.todo2.length).toBe(3)
+    expect(endState.todo2[0].title).toBe('new task')
+})
 
 test('task reducer should create tasks array during adding todolist', () => {
     const todolist = {
@@ -128,34 +131,40 @@ test('tasks should be added for todolist', () => {
     expect(endState.todo1.length).toBe(2)
 })
 
-// test('tasks reducer should update task', () => {
-//     const task = {
-//         title: 'new task1 title',
-//         description: 'string',
-//         status: 0,
-//         priority: 0,
-//         startDate: 'string',
-//         deadline: 'string',
-//     }
-//
-//     const updatedTask = {
-//         description: 'string',
-//         title: 'new task1 title',
-//         status: 0,
-//         priority: 0,
-//         startDate: 'string',
-//         deadline: 'string',
-//         id: 'task1',
-//         todoListId: 'todo1',
-//         order: 1,
-//         addedDate: 'string',
-//         entityStatus: 'idle'
-//     }
-//
-//     const action = updateTaskThunk.fulfilled(
-//         {resultCode: 0, message: [], data: {item: updatedTask}}, '',
-//         {todolistId: 'todo1', taskId: 'task1', taskData: task})
-//     const endState = taskReducer(initialState, action)
-//
-//     expect(endState['todo1'][0].title).toBe('new task1 title')
-// })
+test('tasks reducer should update task', () => {
+    const task = {
+        title: 'new task1 title',
+        description: 'string',
+        status: 0,
+        priority: 0,
+        startDate: 'string',
+        deadline: 'string',
+    }
+
+    const updatedTask = {
+        description: 'string',
+        title: 'new task1 title',
+        status: 0,
+        priority: 0,
+        startDate: 'string',
+        deadline: 'string',
+        id: 'task1',
+        todoListId: 'todo1',
+        order: 1,
+        addedDate: 'string',
+        entityStatus: 'idle'
+    }
+
+    const response = {
+        resultCode: 0,
+        messages: [],
+        data: {item: updatedTask}
+    }
+
+    const action = updateTaskThunk.fulfilled(
+        response, '',
+        {todolistId: 'todo1', taskId: 'task1', taskData: task})
+    const endState = taskReducer(initialState, action)
+
+    expect(endState['todo1'][0].title).toBe('new task1 title')
+})

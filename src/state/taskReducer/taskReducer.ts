@@ -55,7 +55,7 @@ export const removeTaskThunk = createAsyncThunk('tasks/removeTask',
 
 
 export const updateTaskThunk = createAsyncThunk('tasks/updateTask',
-    async (params: { todolistId: string, taskId: string, taskData: UpdateTaskType }, {dispatch, rejectWithValue}) => {
+    async (params: { todolistId: string, taskId: string, taskData: UpdateTaskType}, {dispatch, rejectWithValue}) => {
         const {todolistId, taskId, taskData} = params
         dispatch(setTaskEntityStatus({todolistId, taskId, status: 'loading'}))
         try {
